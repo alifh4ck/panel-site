@@ -27,6 +27,39 @@
 <body>
   <script src="./app.js"></script>
 
+  <!-- Simple admin lock (front-end only) -->
+  <script>
+    (function () {
+      const PASS = "Alif@@8945"; // আপনার admin password
+      const KEY = "panel_site_admin_ok";
+      const EXP_HOURS = 12; // 12 hours session
+
+      function isValidSession() {
+        try {
+          const raw = localStorage.getItem(KEY);
+          if (!raw) return false;
+          const data = JSON.parse(raw);
+          return data.ok === true && Date.now() < data.exp;
+        } catch {
+          return false;
+        }
+      }
+
+      if (!isValidSession()) {
+        const input = prompt("Admin password দিন:");
+        if (input !== PASS) {
+          alert("Wrong password");
+          document.documentElement.innerHTML = "";
+          return;
+        }
+        localStorage.setItem(
+          KEY,
+          JSON.stringify({ ok: true, exp: Date.now() + EXP_HOURS * 60 * 60 * 1000 })
+        );
+      }
+    })();
+  </script>
+
   <header>
     <b>Admin Panel</b>
     <span class="muted">Products • Orders • Messages • Settings</span>
