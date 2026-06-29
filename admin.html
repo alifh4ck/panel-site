@@ -22,6 +22,20 @@
     th, td { border-bottom:1px solid #1e2a44; padding:10px; text-align:left; vertical-align:top; }
     code { background:#0b1324; padding:2px 6px; border-radius:8px; }
     .muted { opacity:.8; font-size: 13px; }
+      <style>
+    body { font-family: Arial, sans-serif; background:#0b0f17; color:#e8eefc; margin:0; }
+    header { padding:16px 20px; border-bottom:1px solid #1e2a44; display:flex; gap:12px; align-items:center; }
+    ...
+    .muted { opacity:.8; font-size: 13px; }
+
+    /* Mobile fix: make admin 1-column on small screens */
+    @media (max-width: 700px) {
+      header { flex-wrap: wrap; }
+      .grid { grid-template-columns: 1fr !important; }
+      .btn { width: 100%; }
+      table { display: block; width: 100%; overflow-x: auto; }
+      th, td { white-space: nowrap; }
+    }
   </style>
 </head>
 <body>
