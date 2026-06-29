@@ -54,7 +54,16 @@ header b {
     flex-direction: column;
   }
 }
-</style>
+/* FORCE mobile stacking for rows (fix overlap) */
+@media (max-width: 900px) {
+  .row {
+    flex-direction: column !important;
+  }
+  .row > * {
+    flex: none !important;
+    width: 100% !important;
+  }
+  </style>
 </head>
 <body>
   <script src="./app.js"></script>
