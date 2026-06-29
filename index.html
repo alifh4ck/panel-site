@@ -33,7 +33,28 @@ header b { min-width: 120px; }
   header .muted { width: 100%; }          /* মাঝের লাইনটা নিচে চলে যাবে */
   header a { margin-left: 0 !important; } /* ডানদিকে চেপে থাকবে না */
 }
-  </style>
+  /* ===== Mobile fixes (FINAL) ===== */
+
+/* Header: wrap nicely on small screens */
+header {
+  flex-wrap: wrap;
+}
+header b {
+  min-width: 120px;
+}
+@media (max-width: 600px) {
+  header { gap: 8px; }
+  header .muted { width: 100%; }
+  header a { margin-left: 0 !important; }
+}
+
+/* Check Order + Checkout: stack .row inputs on mobile (prevents overlap) */
+@media (max-width: 700px) {
+  .row {
+    flex-direction: column;
+  }
+}
+</style>
 </head>
 <body>
   <script src="./app.js"></script>
