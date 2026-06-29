@@ -23,6 +23,16 @@
     .msg { padding:8px 10px; border-radius:10px; margin:8px 0; background:#0b1324; border:1px solid #223252; }
     .msg b { color:#7cc4ff; }
     code { background:#0b1324; padding:2px 6px; border-radius:8px; }
+    /* Mobile header alignment fix */
+header { flex-wrap: wrap; }
+
+header b { min-width: 120px; }
+
+@media (max-width: 600px) {
+  header { gap: 8px; }
+  header .muted { width: 100%; }          /* মাঝের লাইনটা নিচে চলে যাবে */
+  header a { margin-left: 0 !important; } /* ডানদিকে চেপে থাকবে না */
+}
   </style>
 </head>
 <body>
