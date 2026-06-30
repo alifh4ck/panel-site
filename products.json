@@ -1,0 +1,10 @@
+[
+  {
+    "id": "p1",
+    "name": "Panel 1",
+    "price": 10,
+    "currency": "USDT",
+    "description": "Example panel description",
+    "active": true
+  }
+]
