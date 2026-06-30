@@ -5,34 +5,188 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin Panel</title>
   <style>
-    body { font-family: Arial, sans-serif; background:#0b0f17; color:#e8eefc; margin:0; }
-    header { padding:16px 20px; border-bottom:1px solid #1e2a44; display:flex; gap:12px; align-items:center; }
-    a { color:#7cc4ff; text-decoration:none; }
-    .wrap { max-width:1100px; margin:0 auto; padding:20px; }
-    .grid { display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
-    .card { background:#111a2e; border:1px solid #1e2a44; border-radius:12px; padding:14px; }
-    .btn { background:#2b78ff; border:none; color:white; padding:10px 12px; border-radius:10px; cursor:pointer; }
-    .btn.secondary { background:#24314d; }
-    .btn.danger { background:#ff3b3b; }
-    input, textarea, select { width:100%; padding:10px; border-radius:10px; border:1px solid #263656; background:#0b1324; color:#e8eefc; }
-    label { display:block; margin:10px 0 6px; opacity:.9; }
-    .row { display:flex; gap:10px; }
-    .row > * { flex:1; }
-    table { width:100%; border-collapse: collapse; }
-    th, td { border-bottom:1px solid #1e2a44; padding:10px; text-align:left; vertical-align:top; }
-    code { background:#0b1324; padding:2px 6px; border-radius:8px; }
-    .muted { opacity:.8; font-size: 13px; }
-
-    /* Mobile fix: make admin 1-column + scroll tables */
-    @media (max-width: 700px) {
-      header { flex-wrap: wrap; }
-      .grid { grid-template-columns: 1fr !important; }
-      .btn { width: 100%; }
-      table { display: block; width: 100%; overflow-x: auto; }
-      th, td { white-space: nowrap; }
+    /* ===== Theme ===== */
+    * { box-sizing: border-box; }
+    html, body { width: 100%; overflow-x: hidden; }
+    :root{
+      --bg:#0b0f17;
+      --panelA: rgba(15,25,48,.92);
+      --panelB: rgba(11,19,36,.88);
+      --stroke: rgba(30,42,68,.9);
+      --stroke2: rgba(38,54,86,.95);
+      --text:#e8eefc;
+      --muted: rgba(232,238,252,.74);
+      --brand:#2b78ff;
+      --brand2:#7cc4ff;
+      --danger:#ff3b3b;
+      --ok:#20c997;
+      --warn:#ffb020;
     }
 
-    /* ===== Modern Login Overlay ===== */
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(43,120,255,.22), transparent 60%),
+        radial-gradient(900px 480px at 90% 90%, rgba(255,59,59,.10), transparent 60%),
+        #0b0f17;
+    }
+    a{ color: var(--brand2); text-decoration:none; }
+    .muted{ color: var(--muted); font-size: 13px; }
+
+    /* ===== Layout ===== */
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--stroke);
+      background: rgba(11,15,23,.55);
+      backdrop-filter: blur(10px);
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .brand{
+      font-weight: 900;
+      letter-spacing: .2px;
+      line-height: 1.05;
+      min-width: 120px;
+    }
+    .headerRight{
+      margin-left:auto;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(124,196,255,.22);
+      background: rgba(15,25,48,.55);
+      user-select: none;
+      transition: transform .12s ease, filter .2s ease, border-color .25s ease;
+      white-space: nowrap;
+    }
+    .chip:hover{ filter: brightness(1.08); border-color: rgba(124,196,255,.35); }
+    .chip:active{ transform: translateY(1px); }
+
+    .wrap{ max-width: 1100px; margin: 0 auto; padding: 20px; }
+    .grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    /* ===== Cards / Inputs / Buttons ===== */
+    .card{
+      background: linear-gradient(180deg, var(--panelA), var(--panelB));
+      border: 1px solid var(--stroke);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.38);
+      backdrop-filter: blur(10px);
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 26px 80px rgba(0,0,0,.46);
+      border-color: rgba(124,196,255,.26);
+    }
+
+    label{ display:block; margin: 10px 0 6px; opacity:.92; }
+    input, textarea, select{
+      width: 100%;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid var(--stroke2);
+      background: rgba(11,19,36,.85);
+      color: var(--text);
+      outline: none;
+    }
+    input:focus, textarea:focus, select:focus{
+      border-color: rgba(124,196,255,.45);
+      box-shadow: 0 0 0 4px rgba(43,120,255,.10);
+    }
+
+    .row{ display:flex; gap:10px; }
+    .row > *{ flex: 1; }
+
+    .btn{
+      border:none;
+      cursor:pointer;
+      color:white;
+      background: var(--brand);
+      padding: 10px 12px;
+      border-radius: 12px;
+      transition: transform .12s ease, filter .2s ease;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .btn:hover{ filter: brightness(1.08); }
+    .btn:active{ transform: translateY(1px) scale(.99); }
+    .btn.secondary{ background: rgba(36,49,77,1); }
+    .btn.danger{ background: var(--danger); }
+    .btn.ghost{
+      background: rgba(43,120,255,.12);
+      border: 1px solid rgba(43,120,255,.35);
+    }
+
+    /* ===== Tables ===== */
+    table{ width: 100%; border-collapse: collapse; }
+    th, td{
+      border-bottom: 1px solid rgba(30,42,68,.65);
+      padding: 10px;
+      text-align:left;
+      vertical-align: top;
+    }
+    th{ color: rgba(232,238,252,.88); font-size: 13px; letter-spacing:.2px; }
+    code{
+      background: rgba(11,19,36,.85);
+      padding: 2px 6px;
+      border-radius: 10px;
+      word-break: break-all;
+    }
+
+    .badge{
+      display:inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(124,196,255,.22);
+      background: rgba(15,25,48,.55);
+      font-size: 12px;
+      opacity: .95;
+    }
+    .badge.ok{ border-color: rgba(32,201,151,.35); background: rgba(32,201,151,.12); }
+    .badge.warn{ border-color: rgba(255,176,32,.35); background: rgba(255,176,32,.12); }
+    .badge.bad{ border-color: rgba(255,59,59,.35); background: rgba(255,59,59,.12); }
+
+    .txCell{
+      max-width: 280px;
+      word-break: break-all;
+      cursor: pointer;
+    }
+    .hint{ font-size:12px; color: rgba(232,238,252,.7); margin-top:8px; }
+
+    /* ===== Toast ===== */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(15,25,48,.95);
+      border: 1px solid rgba(124,196,255,.28);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 999px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      display:none;
+      z-index: 99999;
+    }
+
+    /* ===== Login Overlay ===== */
     .loginOverlay{
       position: fixed; inset: 0;
       display: none;
@@ -49,58 +203,72 @@
       width: 100%;
       max-width: 420px;
       border-radius: 16px;
-      border: 1px solid #223252;
-      background: linear-gradient(180deg, #0f1930, #0b1324);
+      border: 1px solid rgba(34,50,82,.95);
+      background: linear-gradient(180deg, var(--panelA), var(--panelB));
       padding: 16px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+      box-shadow: 0 20px 60px rgba(0,0,0,.55);
     }
-    .loginTitle{ font-size: 20px; font-weight: 700; margin: 0; }
-    .loginSub{ margin-top: 6px; font-size: 13px; opacity: .8; }
-    .loginErr{ display:none; margin-top:10px; padding:10px; border-radius:12px; border:1px solid #5a2230; background:#2a1118; color:#ffd7df; }
-    .loginRow{ display:flex; gap:10px; align-items:center; margin-top:12px; }
-    .toggle{ display:flex; align-items:center; gap:10px; margin-top:10px; }
     .pill{
       display:inline-block; padding:4px 10px; border-radius:999px;
-      background:#0b1324; border:1px solid #223252; font-size:12px; opacity:.9;
+      background: rgba(11,19,36,.85); border: 1px solid rgba(34,50,82,.95);
+      font-size: 12px; opacity: .9;
+    }
+    .loginErr{
+      display:none;
+      margin-top:10px;
+      padding:10px;
+      border-radius:12px;
+      border:1px solid rgba(255,59,59,.35);
+      background: rgba(255,59,59,.10);
+      color: rgba(255,220,230,.95);
+    }
+
+    /* ===== Mobile ===== */
+    @media (max-width: 800px){
+      .grid{ grid-template-columns: 1fr; }
+      .wrap{ padding: 14px; }
+      .btn{ width: 100%; }
+      table{ display:block; width:100%; overflow-x:auto; }
+      th, td{ white-space: nowrap; }
+      .txCell{ max-width: 220px; }
     }
   </style>
 </head>
+
 <body>
   <script src="./app.js"></script>
 
-  <!-- Modern login overlay -->
   <div class="loginOverlay" id="loginOverlay">
     <div class="loginCard">
       <div class="pill">Admin Login</div>
-      <h1 class="loginTitle" style="margin-top:10px;">Panel Admin</h1>
-      <div class="loginSub">Password দিয়ে ঢুকুন। (Remember me দিলে 12 ঘণ্টা login থাকবে)</div>
+      <h2 style="margin:10px 0 0;">Panel Admin</h2>
+      <div class="muted" style="margin-top:6px;">Password দিয়ে ঢুকুন। “Remember” দিলে 12 ঘণ্টা থাকবে।</div>
 
       <div class="loginErr" id="loginErr">Wrong password</div>
 
       <label style="margin-top:12px;">Password</label>
       <input id="loginPass" type="password" placeholder="Enter admin password" />
 
-      <div class="toggle">
+      <div style="display:flex; gap:10px; align-items:center; margin-top:10px;">
         <input id="rememberMe" type="checkbox" checked />
-        <label for="rememberMe" style="margin:0;">Remember me (12 hours)</label>
+        <label for="rememberMe" style="margin:0;">Remember (12 hours)</label>
       </div>
 
-      <div class="loginRow">
+      <div style="display:flex; gap:10px; margin-top:12px;">
         <button class="btn" id="btnLogin">Login</button>
         <button class="btn secondary" id="btnGoSite" type="button">Open Site</button>
-      </div>
-
-      <div class="loginSub" style="margin-top:12px;">
-        Tip: Logout করলে আবার password চাইবে।
       </div>
     </div>
   </div>
 
   <header>
-    <b>Admin Panel</b>
-    <span class="muted">Products • Orders • Messages • Settings</span>
-    <div style="margin-left:auto; display:flex; gap:10px;">
-      <a href="./index.html" target="_blank">Open Site →</a>
+    <div class="brand">
+      AdminNLBRPanel
+    </div>
+    <div class="muted">Products • Orders • Settings</div>
+
+    <div class="headerRight">
+      <a class="chip" href="./index.html" target="_blank" rel="noopener">Open Site →</a>
       <button class="btn secondary" id="btnLogout">Logout</button>
       <button class="btn danger" id="btnReset">Reset Data</button>
     </div>
@@ -109,7 +277,8 @@
   <div class="wrap" id="adminApp" style="display:none;">
     <div class="grid">
       <div class="card">
-        <h2>Settings</h2>
+        <h2 style="margin:0 0 8px;">Settings</h2>
+
         <label>Wallet Address (BEP20)</label>
         <input id="wallet" />
 
@@ -119,11 +288,12 @@
         <label>Note (shown to user)</label>
         <textarea id="note" rows="2"></textarea>
 
-        <button class="btn" id="btnSaveSettings">Save Settings</button>
+        <button class="btn" id="btnSaveSettings" style="margin-top:10px;">Save Settings</button>
+        <div class="hint">Tip: এগুলো User checkout page‑এ দেখাবে।</div>
       </div>
 
       <div class="card">
-        <h2>Add Product</h2>
+        <h2 style="margin:0 0 8px;">Add Product</h2>
 
         <label>Name</label>
         <input id="p_name" placeholder="Panel name" />
@@ -152,45 +322,32 @@
           <option value="false">false</option>
         </select>
 
-        <button class="btn" id="btnAddProduct">Add Product</button>
+        <button class="btn" id="btnAddProduct" style="margin-top:10px;">Add Product</button>
+        <div class="hint">Products client‑side localStorage‑এ সেভ হয়।</div>
       </div>
     </div>
 
     <div class="card" style="margin-top:14px;">
-      <h2>Products</h2>
+      <h2 style="margin:0 0 8px;">Products</h2>
       <div class="muted">Edit / Active toggle / Delete</div>
-      <table id="productsTable"></table>
+      <table id="productsTable" style="margin-top:10px;"></table>
     </div>
 
     <div class="card" style="margin-top:14px;">
-      <h2>Orders</h2>
-      <div class="muted">Approve/Reject + open messages</div>
-      <table id="ordersTable"></table>
-    </div>
-
-    <div class="card" style="margin-top:14px;">
-      <h2>Order Messages</h2>
-      <div class="row">
-        <div>
-          <label>Order ID</label>
-          <input id="m_orderId" placeholder="order_xxx..." />
-        </div>
-        <div>
-          <label>Reply text</label>
-          <input id="m_text" placeholder="Write reply..." />
-        </div>
-      </div>
-      <button class="btn" id="btnReply">Send Reply</button>
-      <div id="msgList" style="margin-top:12px;"></div>
+      <h2 style="margin:0 0 8px;">Orders</h2>
+      <div class="muted">Approve/Reject • TxID tap-to-copy</div>
+      <table id="ordersTable" style="margin-top:10px;"></table>
     </div>
   </div>
+
+  <div class="toast" id="toast">Copied!</div>
 
   <script>
     const S = window.PanelShop;
 
     // ===== Auth (front-end only) =====
     const PASS = "Alif@@8945";
-    const SESSION_KEY = "panel_site_admin_ok_v2";
+    const SESSION_KEY = "panel_site_admin_ok_v3";
 
     function setSession(hours) {
       localStorage.setItem(SESSION_KEY, JSON.stringify({
@@ -198,9 +355,7 @@
         exp: Date.now() + hours * 60 * 60 * 1000
       }));
     }
-    function clearSession() {
-      localStorage.removeItem(SESSION_KEY);
-    }
+    function clearSession() { localStorage.removeItem(SESSION_KEY); }
     function hasSession() {
       try {
         const raw = localStorage.getItem(SESSION_KEY);
@@ -217,7 +372,6 @@
     function showApp() {
       document.getElementById("loginOverlay").style.display = "none";
       document.getElementById("adminApp").style.display = "block";
-      // load app UI after auth
       initApp();
     }
 
@@ -235,8 +389,7 @@
         return;
       }
       err.style.display = "none";
-      if (remember) setSession(12);
-      else setSession(0.1); // ~6 minutes session if not remember
+      setSession(remember ? 12 : 0.1);
       showApp();
     });
 
@@ -249,7 +402,7 @@
     if (hasSession()) showApp();
     else showLogin();
 
-    // ===== Admin App (same logic as before) =====
+    // ===== Helpers =====
     function escapeHtml(s) {
       return String(s || "")
         .replaceAll("&", "&amp;")
@@ -259,6 +412,37 @@
         .replaceAll("'", "&#039;");
     }
 
+    function showToast(text){
+      const t = document.getElementById("toast");
+      t.textContent = text;
+      t.style.display = "block";
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => t.style.display = "none", 1400);
+    }
+
+    async function copyText(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        showToast("Copied!");
+      }catch(e){
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        showToast("Copied!");
+      }
+    }
+
+    function badgeFor(status){
+      const s = String(status || "").toUpperCase();
+      if (s === "PAID") return `<span class="badge ok">PAID</span>`;
+      if (s === "REJECTED") return `<span class="badge bad">REJECTED</span>`;
+      return `<span class="badge warn">PENDING</span>`;
+    }
+
+    // ===== UI =====
     function loadSettingsUI() {
       const store = S.loadStore();
       document.getElementById("wallet").value = store.settings.walletAddress || "";
@@ -278,7 +462,7 @@
           <tr>
             <td>
               <input data-edit-name="${p.id}" value="${escapeHtml(p.name)}" />
-              <div class="muted">${escapeHtml(p.description || "")}</div>
+              <div class="muted" style="margin-top:6px;">${escapeHtml(p.description || "")}</div>
             </td>
             <td>
               <input data-edit-price="${p.id}" type="number" step="0.01" value="${Number(p.price)}" />
@@ -329,19 +513,36 @@
 
       t.innerHTML = `
         <tr>
-          <th>Order</th><th>Customer</th><th>Product</th><th>TxID</th><th>Status</th><th>Actions</th>
+          <th>Order</th>
+          <th>Customer</th>
+          <th>Product</th>
+          <th>TxID (tap)</th>
+          <th>Status</th>
+          <th>Actions</th>
         </tr>
         ${orders.map(o => `
           <tr>
-            <td><code>${escapeHtml(o.id)}</code>NLBR<span class="muted">${escapeHtml(o.createdAt)}</span></td>
-            <td>${escapeHtml(o.email)}</td>
-            <td>${escapeHtml(o.productSnapshot.name)}NLBR<span class="muted">$${Number(o.productSnapshot.price).toFixed(2)} ${escapeHtml(o.productSnapshot.currency)}</span></td>
-            <td style="max-width:240px; word-break:break-all;">${escapeHtml(o.txId || "-")}</td>
-            <td><b>${escapeHtml(o.status)}</b></td>
+            <td>
+              <code>${escapeHtml(o.id)}</code>NLBR
+              <span class="muted">${escapeHtml(o.createdAt)}</span>
+            </td>
+            <td>
+              <div>${escapeHtml(o.name || "-")}</div>
+              <div class="muted">${escapeHtml(o.telegram || "-")}</div>
+              <div class="muted">${escapeHtml(o.email || "-")}</div>
+            </td>
+            <td>
+              ${escapeHtml(o.productSnapshot?.name || "-")}NLBR
+              <span class="muted">$${Number(o.productSnapshot?.price || 0).toFixed(2)} ${escapeHtml(o.productSnapshot?.currency || "")}</span>
+            </td>
+            <td class="txCell" data-tx="${escapeHtml(o.txId || "")}">
+              ${escapeHtml(o.txId || "-")}
+              <div class="hint">Tap to copy</div>
+            </td>
+            <td>${badgeFor(o.status)}</td>
             <td>
               <button class="btn" data-paid="${o.id}">Approve</button>
               <button class="btn danger" data-rej="${o.id}">Reject</button>
-              <button class="btn secondary" data-open="${o.id}">Open Msg</button>
             </td>
           </tr>
         `).join("")}
@@ -351,35 +552,20 @@
         S.setOrderStatus(btn.getAttribute("data-paid"), "PAID");
         renderOrders();
       }));
+
       t.querySelectorAll("[data-rej]").forEach(btn => btn.addEventListener("click", () => {
         S.setOrderStatus(btn.getAttribute("data-rej"), "REJECTED");
         renderOrders();
       }));
-      t.querySelectorAll("[data-open]").forEach(btn => btn.addEventListener("click", () => {
-        const id = btn.getAttribute("data-open");
-        document.getElementById("m_orderId").value = id;
-        renderMessages();
+
+      t.querySelectorAll("[data-tx]").forEach(cell => cell.addEventListener("click", () => {
+        const tx = cell.getAttribute("data-tx");
+        if (!tx) return;
+        copyText(tx);
       }));
     }
 
-    function renderMessages() {
-      const orderId = document.getElementById("m_orderId").value.trim();
-      const box = document.getElementById("msgList");
-      if (!orderId) { box.innerHTML = "<div class='muted'>Enter an Order ID</div>"; return; }
-
-      const msgs = S.getMessages(orderId);
-      box.innerHTML = msgs.map(m => `
-        <div class="card" style="margin:8px 0;">
-          <b>${escapeHtml(m.from)}</b> <span class="muted">(${escapeHtml(m.createdAt)})</span>\
-
-          ${escapeHtml(m.text)}
-        </div>
-      `).join("");
-      if (msgs.length === 0) box.innerHTML = "<div class='muted'>No messages found for this order.</div>";
-    }
-
     function initApp() {
-      // Bind buttons once (avoid re-binding)
       if (window.__adminBound) return;
       window.__adminBound = true;
 
@@ -388,7 +574,7 @@
         const network = document.getElementById("network").value.trim();
         const note = document.getElementById("note").value.trim();
         S.updateSettings({ walletAddress, network, note });
-        alert("Saved!");
+        showToast("Saved!");
       });
 
       document.getElementById("btnAddProduct").addEventListener("click", () => {
@@ -403,24 +589,11 @@
           document.getElementById("p_name").value = "";
           document.getElementById("p_desc").value = "";
           renderProducts();
+          showToast("Product added!");
         } catch (e) {
           alert(e.message || "Failed");
         }
       });
-
-      document.getElementById("btnReply").addEventListener("click", () => {
-        const orderId = document.getElementById("m_orderId").value.trim();
-        const text = document.getElementById("m_text").value;
-        try {
-          S.addMessage(orderId, "ADMIN", text);
-          document.getElementById("m_text").value = "";
-          renderMessages();
-        } catch (e) {
-          alert(e.message || "Failed");
-        }
-      });
-
-      document.getElementById("m_orderId").addEventListener("input", renderMessages);
 
       document.getElementById("btnReset").addEventListener("click", () => {
         if (!confirm("সব ডাটা ডিলিট হবে (products, orders, messages). Continue?")) return;
@@ -428,15 +601,14 @@
         loadSettingsUI();
         renderProducts();
         renderOrders();
-        renderMessages();
+        showToast("Reset done");
       });
 
       // initial render
       loadSettingsUI();
       renderProducts();
       renderOrders();
-      renderMessages();
     }
   </script>
 </body>
-</html>
+          </html>
