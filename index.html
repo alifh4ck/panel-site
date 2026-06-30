@@ -23,46 +23,29 @@
     .msg { padding:8px 10px; border-radius:10px; margin:8px 0; background:#0b1324; border:1px solid #223252; }
     .msg b { color:#7cc4ff; }
     code { background:#0b1324; padding:2px 6px; border-radius:8px; }
-    /* Mobile header alignment fix */
-header { flex-wrap: wrap; }
 
-header b { min-width: 120px; }
+    /* ===== Mobile fixes (FINAL) ===== */
+    header { flex-wrap: wrap; }
+    header b { min-width: 120px; }
 
-@media (max-width: 600px) {
-  header { gap: 8px; }
-  header .muted { width: 100%; }          /* মাঝের লাইনটা নিচে চলে যাবে */
-  header a { margin-left: 0 !important; } /* ডানদিকে চেপে থাকবে না */
-}
-  /* ===== Mobile fixes (FINAL) ===== */
+    @media (max-width: 600px) {
+      header { gap: 8px; }
+      header .muted { width: 100%; }
+      header a { margin-left: 0 !important; }
+    }
 
-/* Header: wrap nicely on small screens */
-header {
-  flex-wrap: wrap;
-}
-header b {
-  min-width: 120px;
-}
-@media (max-width: 600px) {
-  header { gap: 8px; }
-  header .muted { width: 100%; }
-  header a { margin-left: 0 !important; }
-}
-
-/* Check Order + Checkout: stack .row inputs on mobile (prevents overlap) */
-@media (max-width: 700px) {
-  .row {
-    flex-direction: column;
-  }
-}
-/* FORCE mobile stacking for rows (fix overlap) */
-@media (max-width: 900px) {
-  .row {
-    flex-direction: column !important;
-  }
-  .row > * {
-    flex: none !important;
-    width: 100% !important;
-  }
+    /* Only Check Order row stacks on mobile */
+    @media (max-width: 900px) {
+      .rowStack {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+      }
+      .rowStack > * {
+        width: 100% !important;
+        flex: none !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -84,7 +67,7 @@ header b {
 
     <h2>Check Order</h2>
     <div class="card">
-      <div class="row">
+      <div class="row rowStack">
         <div>
           <label>Order ID</label>
           <input id="lookupOrderId" placeholder="order_xxx..." />
@@ -94,7 +77,7 @@ header b {
           <input id="lookupEmail" placeholder="your@email.com" />
         </div>
       </div>
-      <button class="btn secondary" id="btnLookup">Load Order</button>
+      <button class="btn secondary" id="btnLookup" style="margin-top:10px;">Load Order</button>
 
       <div id="orderBox" style="margin-top:12px; display:none;">
         <div class="card">
@@ -145,7 +128,7 @@ header b {
         </div>
       </div>
 
-      <button class="btn" id="btnSubmitOrder">Submit & Verify</button>
+      <button class="btn" id="btnSubmitOrder" style="margin-top:10px;">Submit & Verify</button>
 
       <div id="m_result" class="card" style="display:none; margin-top:12px;"></div>
     </div>
@@ -160,6 +143,15 @@ header b {
     const btnSubmit = document.getElementById("btnSubmitOrder");
 
     let selectedProduct = null;
+
+    function escapeHtml(s) {
+      return String(s || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
 
     function renderProducts() {
       const store = S.loadStore();
@@ -197,6 +189,7 @@ header b {
 
       document.getElementById("m_email").value = "";
       document.getElementById("m_txid").value = "";
+
       const r = document.getElementById("m_result");
       r.style.display = "none";
       r.innerHTML = "";
@@ -246,7 +239,8 @@ header b {
 
       document.getElementById("o_id").textContent = o.id;
       document.getElementById("o_status").textContent = o.status;
-      document.getElementById("o_prod").textContent = `${o.productSnapshot.name} ($${Number(o.productSnapshot.price).toFixed(2)} ${o.productSnapshot.currency})`;
+      document.getElementById("o_prod").textContent =
+        `${o.productSnapshot.name} ($${Number(o.productSnapshot.price).toFixed(2)} ${o.productSnapshot.currency})`;
       document.getElementById("o_tx").textContent = o.txId || "-";
 
       orderBox.style.display = "block";
@@ -281,16 +275,7 @@ header b {
       }
     });
 
-    function escapeHtml(s) {
-      return String(s || "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
     renderProducts();
   </script>
 </body>
-</html>
+  </html>
