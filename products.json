@@ -1,10 +1,82 @@
 [
   {
-    "id": "p1",
-    "name": "Panel 1",
+    "id": "ims-panel",
+    "name": "IMS PANEL",
+    "price": 12,
+    "currency": "USDT",
+    "description": "CLIENT PANEL. (Telegram WhatsApp Instagram Facebook high traffic )",
+    "active": true
+  },
+  {
+    "id": "green-sms",
+    "name": "GREEN SMS",
     "price": 10,
     "currency": "USDT",
-    "description": "Example panel description",
+    "description": "ADMIN PANEL.(Telegram WhatsApp Instagram Facebook high traffic )",
+    "active": true
+  },
+  {
+    "id": "hadi-sms",
+    "name": "HADI SMS",
+    "price": 15,
+    "currency": "USDT",
+    "description": "ADMIN PANEL. (Telegram WhatsApp Instagram Facebook high traffic )",
+    "active": true
+  },
+  {
+    "id": "orenge-sms",
+    "name": "ORENGE SMS",
+    "price": 12,
+    "currency": "USDT",
+    "description": "ADMIN PANEL.  (Telegram WhatsApp Instagram Facebook high traffic )",
+    "active": true
+  },
+  {
+    "id": "7-one-tel",
+    "name": "7 ONE TEL",
+    "price": 20,
+    "currency": "USDT",
+    "description": "ADMIN PANEL. (Telegram WhatsApp Instagram Facebook high traffic )",
+    "active": true
+  },
+  {
+    "id": "ins-panel",
+    "name": "INS PANEL",
+    "price": 8,
+    "currency": "USDT",
+    "description": "ADMIN PANEL. (Telegram WhatsApp Instagram Facebook high traffic )",
+    "active": true
+  },
+  {
+    "id": "number-panel",
+    "name": "NUMBER PANEL",
+    "price": 20,
+    "currency": "USDT",
+    "description": "ADMIN PANEL.   (Telegram WhatsApp Instagram Facebook high traffic )",
+    "active": true
+  },
+  {
+    "id": "7xtel",
+    "name": "7XTEL",
+    "price": 2,
+    "currency": "USDT",
+    "description": "ADMIN PANEL. ( WhatsApp Instagram Facebook high traffic )",
+    "active": true
+  },
+  {
+    "id": "mbc-sms",
+    "name": "MBC SMS",
+    "price": 5,
+    "currency": "USDT",
+    "description": "ADMIN PANEL. (Telegram WhatsApp Instagram Facebook high traffic )",
+    "active": true
+  },
+  {
+    "id": "fast-x-otp",
+    "name": "FAST X OTP",
+    "price": 6,
+    "currency": "USDT",
+    "description": "ADMIN PANEL.  (Telegram WhatsApp Instagram Facebook high traffic )",
     "active": true
   }
 ]
