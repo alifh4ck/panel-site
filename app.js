@@ -51,17 +51,21 @@ function getActiveProducts(store) {
   return store.products.filter(p => p.active);
 }
 
-function createOrder({ email, productId, txId }) {
+function createOrder({ email, productId, txId, name, telegram }) {
   const store = loadStore();
   const product = store.products.find(p => p.id === productId && p.active);
   if (!product) throw new Error("Invalid product");
 
+  if (!name || name.trim().length < 2) throw new Error("Name required");
+  if (!telegram || telegram.trim().length < 2) throw new Error("Telegram required");
   if (!email || !email.includes("@")) throw new Error("Valid email required");
   if (!txId || txId.length < 10) throw new Error("TxID required");
 
   const order = {
     id: uid("order"),
     email,
+    name: name || "",
+    telegram: telegram || "",
     productId,
     productSnapshot: { name: product.name, price: product.price, currency: product.currency },
     txId,
