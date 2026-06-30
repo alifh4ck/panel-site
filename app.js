@@ -1,4 +1,4 @@
-// app.js - single-file "backend" using localStorage
+// app.js - single-file "backend" using localStorage + optional remote products
 
 const STORE_KEY = "panel_shop_v1";
 
@@ -14,7 +14,6 @@ function loadStore() {
   const raw = localStorage.getItem(STORE_KEY);
   if (raw) return JSON.parse(raw);
 
-  // default store
   const store = {
     settings: {
       walletAddress: "0xa5de3c79c11ffbd55f08b3a5390b7c42fb6cea50",
@@ -33,7 +32,7 @@ function loadStore() {
       },
     ],
     orders: [],
-    messages: [], // {id, orderId, from, text, createdAt}
+    messages: [],
   };
   saveStore(store);
   return store;
@@ -51,15 +50,30 @@ function getActiveProducts(store) {
   return store.products.filter(p => p.active);
 }
 
-function createOrder({ email, productId, txId, name, telegram }) {
+// ===== NEW: load products from GitHub RAW JSON =====
+async function loadRemoteProducts(remoteUrl) {
+  const res = await fetch(remoteUrl, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to load remote products.json");
+  const products = await res.json();
+  if (!Array.isArray(products)) throw new Error("Invalid products.json (must be array)");
+  return products;
+}
+
+function createOrder({ email, productId, txId, name, telegram, productSnapshot }) {
   const store = loadStore();
-  const product = store.products.find(p => p.id === productId && p.active);
-  if (!product) throw new Error("Invalid product");
 
   if (!name || name.trim().length < 2) throw new Error("Name required");
   if (!telegram || telegram.trim().length < 2) throw new Error("Telegram required");
   if (!email || !email.includes("@")) throw new Error("Valid email required");
   if (!txId || txId.length < 10) throw new Error("TxID required");
+
+  // productSnapshot comes from UI (remote JSON), fallback to local lookup
+  let snap = productSnapshot;
+  if (!snap) {
+    const product = store.products.find(p => p.id === productId && p.active);
+    if (!product) throw new Error("Invalid product");
+    snap = { name: product.name, price: product.price, currency: product.currency };
+  }
 
   const order = {
     id: uid("order"),
@@ -67,16 +81,15 @@ function createOrder({ email, productId, txId, name, telegram }) {
     name: name || "",
     telegram: telegram || "",
     productId,
-    productSnapshot: { name: product.name, price: product.price, currency: product.currency },
+    productSnapshot: snap,
     txId,
-    status: "PENDING", // PENDING / PAID / REJECTED
+    status: "PENDING",
     createdAt: nowISO(),
   };
 
   store.orders.unshift(order);
   saveStore(store);
 
-  // First system message
   store.messages.push({
     id: uid("msg"),
     orderId: order.id,
@@ -119,7 +132,7 @@ function addMessage(orderId, from, text) {
   store.messages.push({
     id: uid("msg"),
     orderId,
-    from, // USER / ADMIN / SYSTEM
+    from,
     text: text.trim(),
     createdAt: nowISO(),
   });
@@ -133,7 +146,7 @@ function getMessages(orderId) {
     .sort((a, b) => a.createdAt.localeCompare(b.createdAt));
 }
 
-// Admin product management
+// Admin product management (local only; remote uses products.json)
 function addProduct({ name, price, currency, description, active }) {
   const store = loadStore();
   if (!name) throw new Error("Name required");
@@ -165,19 +178,18 @@ function deleteProduct(id) {
   saveStore(store);
 }
 
-// Settings
 function updateSettings(patch) {
   const store = loadStore();
   store.settings = { ...store.settings, ...patch };
   saveStore(store);
 }
 
-// Expose for pages
 window.PanelShop = {
   loadStore,
   saveStore,
   resetStore,
   getActiveProducts,
+  loadRemoteProducts, // NEW
   createOrder,
   getOrders,
   setOrderStatus,
