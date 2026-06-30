@@ -31,51 +31,82 @@
       table { display: block; width: 100%; overflow-x: auto; }
       th, td { white-space: nowrap; }
     }
+
+    /* ===== Modern Login Overlay ===== */
+    .loginOverlay{
+      position: fixed; inset: 0;
+      display: none;
+      align-items: center; justify-content: center;
+      padding: 18px;
+      background:
+        radial-gradient(900px 450px at 20% 10%, rgba(43,120,255,.22), transparent 60%),
+        radial-gradient(800px 400px at 90% 90%, rgba(255,59,59,.14), transparent 60%),
+        rgba(0,0,0,.65);
+      backdrop-filter: blur(6px);
+      z-index: 9999;
+    }
+    .loginCard{
+      width: 100%;
+      max-width: 420px;
+      border-radius: 16px;
+      border: 1px solid #223252;
+      background: linear-gradient(180deg, #0f1930, #0b1324);
+      padding: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+    .loginTitle{ font-size: 20px; font-weight: 700; margin: 0; }
+    .loginSub{ margin-top: 6px; font-size: 13px; opacity: .8; }
+    .loginErr{ display:none; margin-top:10px; padding:10px; border-radius:12px; border:1px solid #5a2230; background:#2a1118; color:#ffd7df; }
+    .loginRow{ display:flex; gap:10px; align-items:center; margin-top:12px; }
+    .toggle{ display:flex; align-items:center; gap:10px; margin-top:10px; }
+    .pill{
+      display:inline-block; padding:4px 10px; border-radius:999px;
+      background:#0b1324; border:1px solid #223252; font-size:12px; opacity:.9;
+    }
   </style>
 </head>
 <body>
   <script src="./app.js"></script>
 
-  <!-- Simple admin lock (front-end only) -->
-  <script>
-    (function () {
-      const PASS = "Alif@@8945";
-      const KEY = "panel_site_admin_ok";
-      const EXP_HOURS = 12;
+  <!-- Modern login overlay -->
+  <div class="loginOverlay" id="loginOverlay">
+    <div class="loginCard">
+      <div class="pill">Admin Login</div>
+      <h1 class="loginTitle" style="margin-top:10px;">Panel Admin</h1>
+      <div class="loginSub">Password দিয়ে ঢুকুন। (Remember me দিলে 12 ঘণ্টা login থাকবে)</div>
 
-      function isValidSession() {
-        try {
-          const raw = localStorage.getItem(KEY);
-          if (!raw) return false;
-          const data = JSON.parse(raw);
-          return data.ok === true && Date.now() < data.exp;
-        } catch {
-          return false;
-        }
-      }
+      <div class="loginErr" id="loginErr">Wrong password</div>
 
-      if (!isValidSession()) {
-        const input = prompt("Admin password দিন:");
-        if (input !== PASS) {
-          alert("Wrong password");
-          document.documentElement.innerHTML = "";
-          return;
-        }
-        localStorage.setItem(KEY, JSON.stringify({ ok: true, exp: Date.now() + EXP_HOURS * 60 * 60 * 1000 }));
-      }
-    })();
-  </script>
+      <label style="margin-top:12px;">Password</label>
+      <input id="loginPass" type="password" placeholder="Enter admin password" />
+
+      <div class="toggle">
+        <input id="rememberMe" type="checkbox" checked />
+        <label for="rememberMe" style="margin:0;">Remember me (12 hours)</label>
+      </div>
+
+      <div class="loginRow">
+        <button class="btn" id="btnLogin">Login</button>
+        <button class="btn secondary" id="btnGoSite" type="button">Open Site</button>
+      </div>
+
+      <div class="loginSub" style="margin-top:12px;">
+        Tip: Logout করলে আবার password চাইবে।
+      </div>
+    </div>
+  </div>
 
   <header>
     <b>Admin Panel</b>
     <span class="muted">Products • Orders • Messages • Settings</span>
     <div style="margin-left:auto; display:flex; gap:10px;">
       <a href="./index.html" target="_blank">Open Site →</a>
+      <button class="btn secondary" id="btnLogout">Logout</button>
       <button class="btn danger" id="btnReset">Reset Data</button>
     </div>
   </header>
 
-  <div class="wrap">
+  <div class="wrap" id="adminApp" style="display:none;">
     <div class="grid">
       <div class="card">
         <h2>Settings</h2>
@@ -157,6 +188,68 @@
   <script>
     const S = window.PanelShop;
 
+    // ===== Auth (front-end only) =====
+    const PASS = "Alif@@8945";
+    const SESSION_KEY = "panel_site_admin_ok_v2";
+
+    function setSession(hours) {
+      localStorage.setItem(SESSION_KEY, JSON.stringify({
+        ok: true,
+        exp: Date.now() + hours * 60 * 60 * 1000
+      }));
+    }
+    function clearSession() {
+      localStorage.removeItem(SESSION_KEY);
+    }
+    function hasSession() {
+      try {
+        const raw = localStorage.getItem(SESSION_KEY);
+        if (!raw) return false;
+        const d = JSON.parse(raw);
+        return d.ok === true && Date.now() < d.exp;
+      } catch { return false; }
+    }
+
+    function showLogin() {
+      document.getElementById("loginOverlay").style.display = "flex";
+      document.getElementById("adminApp").style.display = "none";
+    }
+    function showApp() {
+      document.getElementById("loginOverlay").style.display = "none";
+      document.getElementById("adminApp").style.display = "block";
+      // load app UI after auth
+      initApp();
+    }
+
+    document.getElementById("btnGoSite").addEventListener("click", () => {
+      window.location.href = "./index.html";
+    });
+
+    document.getElementById("btnLogin").addEventListener("click", () => {
+      const pass = document.getElementById("loginPass").value;
+      const remember = document.getElementById("rememberMe").checked;
+      const err = document.getElementById("loginErr");
+
+      if (pass !== PASS) {
+        err.style.display = "block";
+        return;
+      }
+      err.style.display = "none";
+      if (remember) setSession(12);
+      else setSession(0.1); // ~6 minutes session if not remember
+      showApp();
+    });
+
+    document.getElementById("btnLogout").addEventListener("click", () => {
+      clearSession();
+      showLogin();
+    });
+
+    // On load
+    if (hasSession()) showApp();
+    else showLogin();
+
+    // ===== Admin App (same logic as before) =====
     function escapeHtml(s) {
       return String(s || "")
         .replaceAll("&", "&amp;")
@@ -214,7 +307,6 @@
           const price = Number(t.querySelector(`[data-edit-price="${id}"]`).value);
           const currency = t.querySelector(`[data-edit-currency="${id}"]`).value;
           const active = t.querySelector(`[data-edit-active="${id}"]`).value === "true";
-
           S.updateProduct(id, { name, price, currency, active });
           renderProducts();
         });
@@ -286,58 +378,65 @@
       if (msgs.length === 0) box.innerHTML = "<div class='muted'>No messages found for this order.</div>";
     }
 
-    document.getElementById("btnSaveSettings").addEventListener("click", () => {
-      const walletAddress = document.getElementById("wallet").value.trim();
-      const network = document.getElementById("network").value.trim();
-      const note = document.getElementById("note").value.trim();
-      S.updateSettings({ walletAddress, network, note });
-      alert("Saved!");
-    });
+    function initApp() {
+      // Bind buttons once (avoid re-binding)
+      if (window.__adminBound) return;
+      window.__adminBound = true;
 
-    document.getElementById("btnAddProduct").addEventListener("click", () => {
-      try {
-        S.addProduct({
-          name: document.getElementById("p_name").value.trim(),
-          price: Number(document.getElementById("p_price").value),
-          currency: document.getElementById("p_currency").value,
-          description: document.getElementById("p_desc").value.trim(),
-          active: document.getElementById("p_active").value === "true",
-        });
-        document.getElementById("p_name").value = "";
-        document.getElementById("p_desc").value = "";
+      document.getElementById("btnSaveSettings").addEventListener("click", () => {
+        const walletAddress = document.getElementById("wallet").value.trim();
+        const network = document.getElementById("network").value.trim();
+        const note = document.getElementById("note").value.trim();
+        S.updateSettings({ walletAddress, network, note });
+        alert("Saved!");
+      });
+
+      document.getElementById("btnAddProduct").addEventListener("click", () => {
+        try {
+          S.addProduct({
+            name: document.getElementById("p_name").value.trim(),
+            price: Number(document.getElementById("p_price").value),
+            currency: document.getElementById("p_currency").value,
+            description: document.getElementById("p_desc").value.trim(),
+            active: document.getElementById("p_active").value === "true",
+          });
+          document.getElementById("p_name").value = "";
+          document.getElementById("p_desc").value = "";
+          renderProducts();
+        } catch (e) {
+          alert(e.message || "Failed");
+        }
+      });
+
+      document.getElementById("btnReply").addEventListener("click", () => {
+        const orderId = document.getElementById("m_orderId").value.trim();
+        const text = document.getElementById("m_text").value;
+        try {
+          S.addMessage(orderId, "ADMIN", text);
+          document.getElementById("m_text").value = "";
+          renderMessages();
+        } catch (e) {
+          alert(e.message || "Failed");
+        }
+      });
+
+      document.getElementById("m_orderId").addEventListener("input", renderMessages);
+
+      document.getElementById("btnReset").addEventListener("click", () => {
+        if (!confirm("সব ডাটা ডিলিট হবে (products, orders, messages). Continue?")) return;
+        S.resetStore();
+        loadSettingsUI();
         renderProducts();
-      } catch (e) {
-        alert(e.message || "Failed");
-      }
-    });
-
-    document.getElementById("btnReply").addEventListener("click", () => {
-      const orderId = document.getElementById("m_orderId").value.trim();
-      const text = document.getElementById("m_text").value;
-      try {
-        S.addMessage(orderId, "ADMIN", text);
-        document.getElementById("m_text").value = "";
+        renderOrders();
         renderMessages();
-      } catch (e) {
-        alert(e.message || "Failed");
-      }
-    });
+      });
 
-    document.getElementById("m_orderId").addEventListener("input", renderMessages);
-
-    document.getElementById("btnReset").addEventListener("click", () => {
-      if (!confirm("সব ডাটা ডিলিট হবে (products, orders, messages). Continue?")) return;
-      S.resetStore();
+      // initial render
       loadSettingsUI();
       renderProducts();
       renderOrders();
       renderMessages();
-    });
-
-    loadSettingsUI();
-    renderProducts();
-    renderOrders();
-    renderMessages();
+    }
   </script>
 </body>
-  </html>
+</html>
