@@ -17,7 +17,7 @@ function loadStore() {
   // default store
   const store = {
     settings: {
-      walletAddress: "0xYourBEP20WalletAddress",
+      walletAddress: "0xa5de3c79c11ffbd55f08b3a5390b7c42fb6cea50",
       network: "BSC / BEP20",
       note: "Send exact amount then submit TxID.",
     },
@@ -115,7 +115,7 @@ function addMessage(orderId, from, text) {
   store.messages.push({
     id: uid("msg"),
     orderId,
-    from, // USER / ADMIN
+    from, // USER / ADMIN / SYSTEM
     text: text.trim(),
     createdAt: nowISO(),
   });
@@ -124,7 +124,9 @@ function addMessage(orderId, from, text) {
 
 function getMessages(orderId) {
   const store = loadStore();
-  return store.messages.filter(m => m.orderId === orderId).sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+  return store.messages
+    .filter(m => m.orderId === orderId)
+    .sort((a, b) => a.createdAt.localeCompare(b.createdAt));
 }
 
 // Admin product management
