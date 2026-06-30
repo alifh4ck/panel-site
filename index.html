@@ -4,82 +4,297 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Panel Shop</title>
+
   <style>
+    /* ===== Base ===== */
     * { box-sizing: border-box; }
     html, body { width: 100%; overflow-x: hidden; }
-
-    body { font-family: Arial, sans-serif; background:#0b0f17; color:#e8eefc; margin:0; }
-    header { padding:16px 20px; border-bottom:1px solid #1e2a44; display:flex; gap:12px; align-items:center; }
-    a { color:#7cc4ff; text-decoration:none; }
-
-    .wrap { max-width:1000px; margin:0 auto; padding:20px; }
-    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:14px; }
-    .card { background:#111a2e; border:1px solid #1e2a44; border-radius:12px; padding:14px; }
-    .btn { background:#2b78ff; border:none; color:white; padding:10px 12px; border-radius:10px; cursor:pointer; }
-    .btn.secondary { background:#24314d; }
-
-    input, textarea, select { width:100%; padding:10px; border-radius:10px; border:1px solid #263656; background:#0b1324; color:#e8eefc; }
-    label { display:block; margin:10px 0 6px; opacity:.9; }
-
-    .row { display:flex; gap:10px; }
-    .row > * { flex:1; }
-
-    .muted { opacity:.8; font-size: 13px; }
-
-    .modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; padding:18px; }
-    .modal { max-width:720px; width:100%; background:#0f1930; border:1px solid #233458; border-radius:14px; padding:16px; }
-
-    .msg { padding:8px 10px; border-radius:10px; margin:8px 0; background:#0b1324; border:1px solid #223252; }
-    .msg b { color:#7cc4ff; }
-
-    code { background:#0b1324; padding:2px 6px; border-radius:8px; word-break: break-all; }
-
-    /* ===== Mobile fixes (FINAL) ===== */
-    header { flex-wrap: wrap; }
-    header b { min-width: 120px; }
-
-    @media (max-width: 600px) {
-      header { gap: 8px; }
-      header .muted { width: 100%; }
-      header a { margin-left: 0 !important; }
-      .wrap { padding: 14px; }
-      .btn { width: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: #e8eefc;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(43,120,255,.18), transparent 60%),
+                  radial-gradient(900px 480px at 90% 90%, rgba(124,196,255,.10), transparent 60%),
+                  #0b0f17;
     }
 
-    /* Stack ONLY specific rows on mobile (prevents overlap) */
-    @media (max-width: 900px) {
-      .rowStack,
-      .rowStackModal {
+    :root{
+      --bg:#0b0f17;
+      --panel: rgba(17,26,46,.78);
+      --panel2: rgba(15,25,48,.84);
+      --stroke: rgba(30,42,68,.9);
+      --stroke2: rgba(38,54,86,.9);
+      --text:#e8eefc;
+      --muted: rgba(232,238,252,.74);
+      --brand:#2b78ff;
+      --brand2:#7cc4ff;
+      --danger:#ff3b3b;
+    }
+
+    a { color: var(--brand2); text-decoration: none; }
+    .muted { color: var(--muted); font-size: 13px; }
+
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 20px; }
+    h2 { margin: 18px 0 12px; letter-spacing: .2px; }
+
+    /* ===== Header ===== */
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display:flex;
+      gap: 12px;
+      align-items:center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--stroke);
+      background: rgba(11,15,23,.55);
+      backdrop-filter: blur(10px);
+    }
+    .brand{
+      display:flex;
+      flex-direction: column;
+      line-height: 1.1;
+      min-width: 110px;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+    .topRight{
+      margin-left: auto;
+      display:flex;
+      gap: 10px;
+      align-items:center;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(124,196,255,.22);
+      background: rgba(15,25,48,.55);
+      transition: transform .12s ease, filter .2s ease, border-color .25s ease;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .chip:hover{ filter: brightness(1.08); border-color: rgba(124,196,255,.35); }
+    .chip:active{ transform: translateY(1px); }
+
+    /* ===== Cards / buttons ===== */
+    .card{
+      background: linear-gradient(180deg, var(--panel2), var(--panel));
+      border: 1px solid var(--stroke);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      backdrop-filter: blur(10px);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 26px 80px rgba(0,0,0,.42);
+      border-color: rgba(124,196,255,.28);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+
+    .btn{
+      border: none;
+      cursor: pointer;
+      color: white;
+      background: var(--brand);
+      padding: 10px 12px;
+      border-radius: 12px;
+      transition: transform .12s ease, filter .2s ease;
+    }
+    .btn:hover{ filter: brightness(1.08); }
+    .btn:active{ transform: translateY(1px) scale(.99); }
+    .btn.secondary{ background: rgba(36,49,77,1); }
+    .btn.ghost{
+      background: rgba(43,120,255,.12);
+      border: 1px solid rgba(43,120,255,.35);
+    }
+
+    input, textarea{
+      width:100%;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid var(--stroke2);
+      background: rgba(11,19,36,.85);
+      color: var(--text);
+      outline: none;
+    }
+    input:focus, textarea:focus{
+      border-color: rgba(124,196,255,.45);
+      box-shadow: 0 0 0 4px rgba(43,120,255,.10);
+    }
+    label{ display:block; margin: 10px 0 6px; opacity:.92; }
+
+    .row{ display:flex; gap:10px; }
+    .row > *{ flex: 1; }
+
+    hr.sep{ border:0; border-top: 1px solid var(--stroke); margin: 18px 0; opacity:.8; }
+
+    /* ===== Animations ===== */
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .sectionIn{ animation: floatIn .35s ease both; }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 0 rgba(43,120,255,0); }
+      50% { box-shadow: 0 0 24px rgba(43,120,255,.22); }
+      100% { box-shadow: 0 0 0 rgba(43,120,255,0); }
+    }
+
+    /* ===== TxID big + copy ===== */
+    .txBox{
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(11,19,36,.80);
+      border: 1px solid rgba(34,50,82,.95);
+      cursor: pointer;
+      user-select: none;
+      animation: pulseGlow 2.4s ease-in-out infinite;
+    }
+    .txLabel{ font-size: 12px; opacity:.82; }
+    .txValue{
+      margin-top: 6px;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: .2px;
+      word-break: break-all;
+      line-height: 1.25;
+    }
+    .copyHint{
+      margin-top: 10px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+      opacity: .9;
+    }
+    .copyBtn{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(43,120,255,.14);
+      border: 1px solid rgba(43,120,255,.35);
+    }
+
+    /* ===== Modal ===== */
+    .modal-backdrop{
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(0,0,0,.62);
+      backdrop-filter: blur(6px);
+      z-index: 9999;
+    }
+    .modal{
+      width: 100%;
+      max-width: 720px;
+      background: linear-gradient(180deg, rgba(15,25,48,.92), rgba(11,19,36,.92));
+      border: 1px solid rgba(35,52,88,.95);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 30px 90px rgba(0,0,0,.55);
+      animation: floatIn .22s ease both;
+    }
+
+    /* ===== Messages ===== */
+    .msg{
+      padding: 10px 12px;
+      border-radius: 14px;
+      margin: 10px 0;
+      background: rgba(11,19,36,.85);
+      border: 1px solid rgba(34,50,82,.95);
+    }
+    .msg b{ color: var(--brand2); }
+
+    code{
+      background: rgba(11,19,36,.85);
+      padding: 2px 6px;
+      border-radius: 10px;
+      word-break: break-all;
+    }
+
+    /* ===== Toast ===== */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(15,25,48,.95);
+      border: 1px solid rgba(124,196,255,.28);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 999px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      display:none;
+      z-index: 99999;
+    }
+
+    /* ===== Mobile fixes ===== */
+    @media (max-width: 600px){
+      .wrap{ padding: 14px; }
+      header{ flex-wrap: wrap; gap: 8px; }
+      .topRight{ width: 100%; justify-content: flex-end; }
+      .btn{ width: 100%; }
+    }
+
+    /* Stack only specific rows on mobile (prevents overlap) */
+    @media (max-width: 900px){
+      .rowStack, .rowStackModal{
         flex-direction: column !important;
         gap: 10px !important;
       }
-      .rowStack > *,
-      .rowStackModal > * {
+      .rowStack > *, .rowStackModal > *{
         width: 100% !important;
         flex: none !important;
       }
     }
   </style>
 </head>
+
 <body>
   <script src="./app.js"></script>
 
   <header>
-    <b>Panel Shop</b>
-    <span class="muted">BEP20 payment + TxID submit</span>
-    <div style="margin-left:auto">
-      <a href="./admin.html" target="_blank">Admin Panel →</a>
+    <div class="brand">
+      <span>Panel</span>
+      <span>Shop</span>
+    </div>
+
+    <div class="muted">BEP20 payment + TxID submit</div>
+
+    <div class="topRight">
+      <a class="chip" href="./admin.html" target="_blank" rel="noopener">
+        <span>Admin Panel</span><span>→</span>
+      </a>
     </div>
   </header>
 
   <div class="wrap">
-    <h2>Products</h2>
-    <div id="products" class="grid"></div>
+    <h2 class="sectionIn">Products</h2>
+    <div id="products" class="grid sectionIn"></div>
 
-    <hr style="border:0;border-top:1px solid #1e2a44;margin:18px 0" />
+    <hr class="sep" />
 
-    <h2>Check Order</h2>
-    <div class="card">
+    <h2 class="sectionIn">Check Order</h2>
+    <div class="card sectionIn">
       <div class="row rowStack">
         <div>
           <label>Order ID</label>
@@ -94,14 +309,23 @@
       <button class="btn secondary" id="btnLookup" style="margin-top:10px;">Load Order</button>
 
       <div id="orderBox" style="margin-top:12px; display:none;">
-        <div class="card">
+        <div class="card sectionIn">
           <div><b>Order:</b> <span id="o_id"></span></div>
           <div><b>Status:</b> <span id="o_status"></span></div>
           <div><b>Product:</b> <span id="o_prod"></span></div>
-          <div><b>TxID:</b> <span id="o_tx"></span></div>
+
+          <!-- Big TxID + Tap to Copy -->
+          <div class="txBox" id="txCopyBox" title="Tap to copy TxID">
+            <div class="txLabel">Transaction ID (Tap / Click to copy)</div>
+            <div class="txValue" id="o_tx_big">-</div>
+            <div class="copyHint">
+              <span class="muted">ট্যাপ করলে কপি হবে</span>
+              <span class="copyBtn">Copy</span>
+            </div>
+          </div>
         </div>
 
-        <h3>Messages</h3>
+        <h3 style="margin-top:14px;">Messages</h3>
         <div id="msgs"></div>
 
         <label>Write message</label>
@@ -131,7 +355,6 @@
         <div class="muted" id="m_note"></div>
       </div>
 
-      <!-- THIS ROW stacks on mobile -->
       <div class="row rowStackModal" style="margin-top:10px;">
         <div>
           <label>Email</label>
@@ -147,6 +370,8 @@
       <div id="m_result" class="card" style="display:none; margin-top:12px;"></div>
     </div>
   </div>
+
+  <div class="toast" id="toast">Copied!</div>
 
   <script>
     const S = window.PanelShop;
@@ -165,6 +390,30 @@
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+    }
+
+    function showToast(text){
+      const t = document.getElementById("toast");
+      t.textContent = text;
+      t.style.display = "block";
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => t.style.display = "none", 1400);
+    }
+
+    async function copyText(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        showToast("TxID copied!");
+      }catch(e){
+        // fallback
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        showToast("TxID copied!");
+      }
     }
 
     function renderProducts() {
@@ -255,7 +504,9 @@
       document.getElementById("o_status").textContent = o.status;
       document.getElementById("o_prod").textContent =
         `${o.productSnapshot.name} ($${Number(o.productSnapshot.price).toFixed(2)} ${o.productSnapshot.currency})`;
-      document.getElementById("o_tx").textContent = o.txId || "-";
+
+      const tx = o.txId || "-";
+      document.getElementById("o_tx_big").textContent = tx;
 
       orderBox.style.display = "block";
 
@@ -289,6 +540,13 @@
       }
     });
 
+    document.getElementById("txCopyBox").addEventListener("click", () => {
+      const tx = document.getElementById("o_tx_big").textContent.trim();
+      if (!tx || tx === "-") return;
+      copyText(tx);
+    });
+
+    // Init
     renderProducts();
   </script>
 </body>
