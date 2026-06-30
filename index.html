@@ -5,24 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Panel Shop</title>
   <style>
+    * { box-sizing: border-box; }
+    html, body { width: 100%; overflow-x: hidden; }
+
     body { font-family: Arial, sans-serif; background:#0b0f17; color:#e8eefc; margin:0; }
     header { padding:16px 20px; border-bottom:1px solid #1e2a44; display:flex; gap:12px; align-items:center; }
     a { color:#7cc4ff; text-decoration:none; }
+
     .wrap { max-width:1000px; margin:0 auto; padding:20px; }
     .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:14px; }
     .card { background:#111a2e; border:1px solid #1e2a44; border-radius:12px; padding:14px; }
     .btn { background:#2b78ff; border:none; color:white; padding:10px 12px; border-radius:10px; cursor:pointer; }
     .btn.secondary { background:#24314d; }
+
     input, textarea, select { width:100%; padding:10px; border-radius:10px; border:1px solid #263656; background:#0b1324; color:#e8eefc; }
     label { display:block; margin:10px 0 6px; opacity:.9; }
+
     .row { display:flex; gap:10px; }
     .row > * { flex:1; }
+
     .muted { opacity:.8; font-size: 13px; }
+
     .modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; padding:18px; }
     .modal { max-width:720px; width:100%; background:#0f1930; border:1px solid #233458; border-radius:14px; padding:16px; }
+
     .msg { padding:8px 10px; border-radius:10px; margin:8px 0; background:#0b1324; border:1px solid #223252; }
     .msg b { color:#7cc4ff; }
-    code { background:#0b1324; padding:2px 6px; border-radius:8px; }
+
+    code { background:#0b1324; padding:2px 6px; border-radius:8px; word-break: break-all; }
 
     /* ===== Mobile fixes (FINAL) ===== */
     header { flex-wrap: wrap; }
@@ -32,16 +42,19 @@
       header { gap: 8px; }
       header .muted { width: 100%; }
       header a { margin-left: 0 !important; }
+      .wrap { padding: 14px; }
+      .btn { width: 100%; }
     }
 
-    /* Only Check Order row stacks on mobile */
+    /* Stack ONLY specific rows on mobile (prevents overlap) */
     @media (max-width: 900px) {
-      .rowStack {
-        display: flex !important;
+      .rowStack,
+      .rowStackModal {
         flex-direction: column !important;
         gap: 10px !important;
       }
-      .rowStack > * {
+      .rowStack > *,
+      .rowStackModal > * {
         width: 100% !important;
         flex: none !important;
       }
@@ -77,6 +90,7 @@
           <input id="lookupEmail" placeholder="your@email.com" />
         </div>
       </div>
+
       <button class="btn secondary" id="btnLookup" style="margin-top:10px;">Load Order</button>
 
       <div id="orderBox" style="margin-top:12px; display:none;">
@@ -92,7 +106,7 @@
 
         <label>Write message</label>
         <textarea id="msgText" rows="3" placeholder="Write your message..."></textarea>
-        <button class="btn" id="btnSendMsg">Send</button>
+        <button class="btn" id="btnSendMsg" style="margin-top:10px;">Send</button>
       </div>
     </div>
   </div>
@@ -102,7 +116,7 @@
     <div class="modal">
       <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
         <h3 style="margin:0;">Checkout</h3>
-        <button class="btn secondary" id="btnClose">Close</button>
+        <button class="btn secondary" id="btnClose" style="width:auto;">Close</button>
       </div>
 
       <div class="card" style="margin-top:12px;">
@@ -117,7 +131,8 @@
         <div class="muted" id="m_note"></div>
       </div>
 
-      <div class="row">
+      <!-- THIS ROW stacks on mobile -->
+      <div class="row rowStackModal" style="margin-top:10px;">
         <div>
           <label>Email</label>
           <input id="m_email" placeholder="your@email.com" />
@@ -129,7 +144,6 @@
       </div>
 
       <button class="btn" id="btnSubmitOrder" style="margin-top:10px;">Submit & Verify</button>
-
       <div id="m_result" class="card" style="display:none; margin-top:12px;"></div>
     </div>
   </div>
@@ -278,4 +292,4 @@
     renderProducts();
   </script>
 </body>
-  </html>
+</html>
