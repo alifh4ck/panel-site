@@ -6,7 +6,6 @@
   <title>Panel Shop</title>
 
   <style>
-    /* ===== Base ===== */
     * { box-sizing: border-box; }
     html, body { width: 100%; overflow-x: hidden; }
     body {
@@ -34,7 +33,6 @@
     .wrap { max-width: 1000px; margin: 0 auto; padding: 20px; }
     h2 { margin: 18px 0 12px; letter-spacing: .2px; }
 
-    /* ===== Header ===== */
     header{
       position: sticky;
       top: 0;
@@ -77,7 +75,6 @@
     .chip:hover{ filter: brightness(1.08); border-color: rgba(124,196,255,.35); }
     .chip:active{ transform: translateY(1px); }
 
-    /* ===== Cards / buttons ===== */
     .card{
       background: linear-gradient(180deg, var(--panel2), var(--panel));
       border: 1px solid var(--stroke);
@@ -132,7 +129,6 @@
 
     hr.sep{ border:0; border-top: 1px solid var(--stroke); margin: 18px 0; opacity:.8; }
 
-    /* ===== Animations ===== */
     @keyframes floatIn {
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -145,7 +141,6 @@
       100% { box-shadow: 0 0 0 rgba(43,120,255,0); }
     }
 
-    /* ===== TxID big + copy ===== */
     .txBox{
       margin-top: 10px;
       padding: 12px;
@@ -184,7 +179,6 @@
       border: 1px solid rgba(43,120,255,.35);
     }
 
-    /* ===== Modal ===== */
     .modal-backdrop{
       position: fixed;
       inset: 0;
@@ -207,7 +201,6 @@
       animation: floatIn .22s ease both;
     }
 
-    /* ===== Messages ===== */
     .msg{
       padding: 10px 12px;
       border-radius: 14px;
@@ -224,7 +217,6 @@
       word-break: break-all;
     }
 
-    /* ===== Toast ===== */
     .toast{
       position: fixed;
       left: 50%;
@@ -240,7 +232,6 @@
       z-index: 99999;
     }
 
-    /* ===== Mobile fixes ===== */
     @media (max-width: 600px){
       .wrap{ padding: 14px; }
       header{ flex-wrap: wrap; gap: 8px; }
@@ -248,7 +239,6 @@
       .btn{ width: 100%; }
     }
 
-    /* Stack only specific rows on mobile (prevents overlap) */
     @media (max-width: 900px){
       .rowStack, .rowStackModal{
         flex-direction: column !important;
@@ -283,6 +273,7 @@
   <div class="wrap">
     <h2 class="sectionIn">Products</h2>
     <div id="products" class="grid sectionIn"></div>
+    <div id="prodHint" class="muted" style="margin-top:10px;"></div>
 
     <hr class="sep" />
 
@@ -349,7 +340,6 @@
         <div class="muted" id="m_note"></div>
       </div>
 
-      <!-- NEW FIELDS -->
       <div class="row rowStackModal" style="margin-top:10px;">
         <div>
           <label>Your Name</label>
@@ -383,6 +373,7 @@
     const S = window.PanelShop;
 
     const productsEl = document.getElementById("products");
+    const prodHint = document.getElementById("prodHint");
     const modal = document.getElementById("modalBackdrop");
     const btnClose = document.getElementById("btnClose");
     const btnSubmit = document.getElementById("btnSubmitOrder");
@@ -390,6 +381,7 @@
     let selectedProduct = null;
 
     const FORMSPREE_URL = "https://formspree.io/f/xeeblgkr";
+    const REMOTE_PRODUCTS_URL = "https://raw.githubusercontent.com/alifh4ck/panel-site/main/products.json";
 
     function escapeHtml(s) {
       return String(s || "")
@@ -423,9 +415,20 @@
       }
     }
 
-    function renderProducts() {
+    async function renderProducts() {
       const store = S.loadStore();
-      const products = S.getActiveProducts(store);
+
+      let products = [];
+      try{
+        products = await S.loadRemoteProducts(REMOTE_PRODUCTS_URL);
+        prodHint.textContent = "Loaded products from GitHub (shared across all phones).";
+      }catch(e){
+        products = store.products || [];
+        prodHint.textContent = "Remote products load failed. Showing local products.";
+      }
+
+      products = (products || []).filter(p => p && p.active !== false);
+
       productsEl.innerHTML = products.map(p => `
         <div class="card">
           <div style="display:flex; justify-content:space-between; gap:10px;">
@@ -434,39 +437,41 @@
           </div>
           <div class="muted" style="margin-top:8px;">${escapeHtml(p.description || "")}</div>
           <div style="margin-top:12px;">
-            <button class="btn" data-buy="${p.id}">Buy</button>
+            <button class="btn" data-buy="${escapeHtml(p.id)}">Buy</button>
           </div>
         </div>
       `).join("");
 
       productsEl.querySelectorAll("[data-buy]").forEach(btn => {
-        btn.addEventListener("click", () => openCheckout(btn.getAttribute("data-buy")));
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-buy");
+          const p = products.find(x => String(x.id) === String(id));
+          if (!p) return alert("Product not found");
+
+          selectedProduct = p;
+
+          // product UI
+          document.getElementById("m_prod").textContent = p.name;
+          document.getElementById("m_amount").textContent = `$${Number(p.price).toFixed(2)} ${p.currency || ""}`;
+
+          // settings from local store
+          document.getElementById("m_net").textContent = store.settings.network;
+          document.getElementById("m_wallet").textContent = store.settings.walletAddress;
+          document.getElementById("m_note").textContent = store.settings.note || "";
+
+          // clear inputs
+          document.getElementById("m_name").value = "";
+          document.getElementById("m_tg").value = "";
+          document.getElementById("m_email").value = "";
+          document.getElementById("m_txid").value = "";
+
+          const r = document.getElementById("m_result");
+          r.style.display = "none";
+          r.innerHTML = "";
+
+          modal.style.display = "flex";
+        });
       });
-    }
-
-    function openCheckout(productId) {
-      const store = S.loadStore();
-      const p = store.products.find(x => x.id === productId);
-      if (!p) return alert("Product not found");
-
-      selectedProduct = p;
-
-      document.getElementById("m_prod").textContent = p.name;
-      document.getElementById("m_amount").textContent = `$${Number(p.price).toFixed(2)} ${p.currency || ""}`;
-      document.getElementById("m_net").textContent = store.settings.network;
-      document.getElementById("m_wallet").textContent = store.settings.walletAddress;
-      document.getElementById("m_note").textContent = store.settings.note || "";
-
-      document.getElementById("m_name").value = "";
-      document.getElementById("m_tg").value = "";
-      document.getElementById("m_email").value = "";
-      document.getElementById("m_txid").value = "";
-
-      const r = document.getElementById("m_result");
-      r.style.display = "none";
-      r.innerHTML = "";
-
-      modal.style.display = "flex";
     }
 
     btnClose.addEventListener("click", () => modal.style.display = "none");
@@ -484,10 +489,15 @@
           telegram,
           email,
           productId: selectedProduct.id,
-          txId
+          txId,
+          productSnapshot: {
+            name: selectedProduct.name,
+            price: selectedProduct.price,
+            currency: selectedProduct.currency
+          }
         });
 
-        // ===== Email notify via Formspree (works across any phone) =====
+        // Email notify via Formspree
         fetch(FORMSPREE_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -586,7 +596,8 @@
       copyText(tx);
     });
 
+    // Init
     renderProducts();
   </script>
 </body>
-  </html>
+          </html>
