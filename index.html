@@ -19,7 +19,6 @@
     }
 
     :root{
-      --bg:#0b0f17;
       --panel: rgba(17,26,46,.78);
       --panel2: rgba(15,25,48,.84);
       --stroke: rgba(30,42,68,.9);
@@ -28,12 +27,10 @@
       --muted: rgba(232,238,252,.74);
       --brand:#2b78ff;
       --brand2:#7cc4ff;
-      --danger:#ff3b3b;
     }
 
     a { color: var(--brand2); text-decoration: none; }
     .muted { color: var(--muted); font-size: 13px; }
-
     .wrap { max-width: 1000px; margin: 0 auto; padding: 20px; }
     h2 { margin: 18px 0 12px; letter-spacing: .2px; }
 
@@ -114,10 +111,6 @@
     .btn:hover{ filter: brightness(1.08); }
     .btn:active{ transform: translateY(1px) scale(.99); }
     .btn.secondary{ background: rgba(36,49,77,1); }
-    .btn.ghost{
-      background: rgba(43,120,255,.12);
-      border: 1px solid rgba(43,120,255,.35);
-    }
 
     input, textarea{
       width:100%;
@@ -313,8 +306,9 @@
           <div><b>Order:</b> <span id="o_id"></span></div>
           <div><b>Status:</b> <span id="o_status"></span></div>
           <div><b>Product:</b> <span id="o_prod"></span></div>
+          <div><b>Name:</b> <span id="o_name"></span></div>
+          <div><b>Telegram:</b> <span id="o_tg"></span></div>
 
-          <!-- Big TxID + Tap to Copy -->
           <div class="txBox" id="txCopyBox" title="Tap to copy TxID">
             <div class="txLabel">Transaction ID (Tap / Click to copy)</div>
             <div class="txValue" id="o_tx_big">-</div>
@@ -355,6 +349,18 @@
         <div class="muted" id="m_note"></div>
       </div>
 
+      <!-- NEW FIELDS -->
+      <div class="row rowStackModal" style="margin-top:10px;">
+        <div>
+          <label>Your Name</label>
+          <input id="m_name" placeholder="Your full name" />
+        </div>
+        <div>
+          <label>Telegram Username</label>
+          <input id="m_tg" placeholder="@username" />
+        </div>
+      </div>
+
       <div class="row rowStackModal" style="margin-top:10px;">
         <div>
           <label>Email</label>
@@ -383,6 +389,8 @@
 
     let selectedProduct = null;
 
+    const FORMSPREE_URL = "https://formspree.io/f/xeeblgkr";
+
     function escapeHtml(s) {
       return String(s || "")
         .replaceAll("&", "&amp;")
@@ -405,7 +413,6 @@
         await navigator.clipboard.writeText(text);
         showToast("TxID copied!");
       }catch(e){
-        // fallback
         const ta = document.createElement("textarea");
         ta.value = text;
         document.body.appendChild(ta);
@@ -450,6 +457,8 @@
       document.getElementById("m_wallet").textContent = store.settings.walletAddress;
       document.getElementById("m_note").textContent = store.settings.note || "";
 
+      document.getElementById("m_name").value = "";
+      document.getElementById("m_tg").value = "";
       document.getElementById("m_email").value = "";
       document.getElementById("m_txid").value = "";
 
@@ -465,10 +474,38 @@
 
     btnSubmit.addEventListener("click", () => {
       try {
+        const name = document.getElementById("m_name").value.trim();
+        const telegram = document.getElementById("m_tg").value.trim();
         const email = document.getElementById("m_email").value.trim();
         const txId = document.getElementById("m_txid").value.trim();
 
-        const order = S.createOrder({ email, productId: selectedProduct.id, txId });
+        const order = S.createOrder({
+          name,
+          telegram,
+          email,
+          productId: selectedProduct.id,
+          txId
+        });
+
+        // ===== Email notify via Formspree (works across any phone) =====
+        fetch(FORMSPREE_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify({
+            subject: `New order: ${selectedProduct.name}`,
+            customer_name: name,
+            telegram: telegram,
+            customer_email: email,
+            product: selectedProduct.name,
+            price: selectedProduct.price,
+            currency: selectedProduct.currency,
+            txId: txId,
+            orderId: order.id,
+            status: order.status,
+            page: location.href,
+            time: new Date().toISOString()
+          })
+        }).catch(() => {});
 
         const r = document.getElementById("m_result");
         r.style.display = "block";
@@ -504,6 +541,9 @@
       document.getElementById("o_status").textContent = o.status;
       document.getElementById("o_prod").textContent =
         `${o.productSnapshot.name} ($${Number(o.productSnapshot.price).toFixed(2)} ${o.productSnapshot.currency})`;
+
+      document.getElementById("o_name").textContent = o.name || "-";
+      document.getElementById("o_tg").textContent = o.telegram || "-";
 
       const tx = o.txId || "-";
       document.getElementById("o_tx_big").textContent = tx;
@@ -546,8 +586,7 @@
       copyText(tx);
     });
 
-    // Init
     renderProducts();
   </script>
 </body>
-</html>
+  </html>
