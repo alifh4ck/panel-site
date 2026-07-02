@@ -4,15 +4,23 @@
     "name": "IMS PANEL",
     "price": 12,
     "currency": "USDT",
-    "description": "CLIENT PANEL. (Telegram WhatsApp Instagram Facebook high traffic )",
+    "description": "Client Panel (Telegram, WhatsApp, Instagram, Facebook - High Traffic)",
     "active": true
   },
+  {
+  "id": "rsyel",
+  "name": "RSYEL",
+  "price": 25,
+  "currency": "USDT",
+  "description": "Agent Panel (Telegram, WhatsApp, Instagram, Facebook - High Traffic)",
+  "active": true
+  }
   {
     "id": "green-sms",
     "name": "GREEN SMS",
     "price": 10,
     "currency": "USDT",
-    "description": "AGENT PANEL.(Telegram WhatsApp Instagram Facebook high traffic )",
+    "description": "Agent Panel (Telegram, WhatsApp, Instagram, Facebook - High Traffic)",
     "active": true
   },
   {
@@ -20,15 +28,15 @@
     "name": "HADI SMS",
     "price": 15,
     "currency": "USDT",
-    "description": "AGENT PANEL. (Telegram WhatsApp Instagram Facebook high traffic )",
+    "description": "Agent Panel (Telegram, WhatsApp, Instagram, Facebook - High Traffic)",
     "active": true
   },
   {
-    "id": "orenge-sms",
-    "name": "ORENGE SMS",
+    "id": "orange-sms",
+    "name": "ORANGE SMS",
     "price": 12,
     "currency": "USDT",
-    "description": "AGENT PANEL.  (Telegram WhatsApp Instagram Facebook high traffic )",
+    "description": "Agent Panel (Telegram, WhatsApp, Instagram, Facebook - High Traffic)",
     "active": true
   },
   {
@@ -36,7 +44,7 @@
     "name": "7 ONE TEL",
     "price": 20,
     "currency": "USDT",
-    "description": "AGENT PANEL. (Telegram WhatsApp Instagram Facebook high traffic )",
+    "description": "Agent Panel (Telegram, WhatsApp, Instagram, Facebook - High Traffic)",
     "active": true
   },
   {
@@ -44,7 +52,7 @@
     "name": "INS PANEL",
     "price": 8,
     "currency": "USDT",
-    "description": "AGENT PANEL. (Telegram WhatsApp Instagram Facebook high traffic )",
+    "description": "Agent Panel (Telegram, WhatsApp, Instagram, Facebook - High Traffic)",
     "active": true
   },
   {
@@ -52,7 +60,7 @@
     "name": "NUMBER PANEL",
     "price": 20,
     "currency": "USDT",
-    "description": "AGENT PANEL.   (Telegram WhatsApp Instagram Facebook high traffic )",
+    "description": "Agent Panel (Telegram, WhatsApp, Instagram, Facebook - High Traffic)",
     "active": true
   },
   {
@@ -60,7 +68,7 @@
     "name": "7XTEL",
     "price": 2,
     "currency": "USDT",
-    "description": "AGENT PANEL. ( WhatsApp Instagram Facebook high traffic )",
+    "description": "Agent Panel (WhatsApp, Instagram, Facebook - High Traffic)",
     "active": true
   },
   {
@@ -68,7 +76,7 @@
     "name": "MBC SMS",
     "price": 5,
     "currency": "USDT",
-    "description": "AGENT PANEL. (Telegram WhatsApp Instagram Facebook high traffic )",
+    "description": "Agent Panel (Telegram, WhatsApp, Instagram, Facebook - High Traffic)",
     "active": true
   },
   {
@@ -76,7 +84,7 @@
     "name": "FAST X OTP",
     "price": 6,
     "currency": "USDT",
-    "description": "AGENT PANEL  (Telegram WhatsApp Instagram Facebook high traffic )",
+    "description": "Agent Panel (Telegram, WhatsApp, Instagram, Facebook - High Traffic)",
     "active": true
   }
 ]
