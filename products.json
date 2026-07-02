@@ -8,13 +8,13 @@
     "active": true
   },
   {
-  "id": "rsyel",
-  "name": "RSYEL",
-  "price": 25,
-  "currency": "USDT",
-  "description": "Agent Panel (Telegram, WhatsApp, Instagram, Facebook - High Traffic)",
-  "active": true
-  }
+    "id": "rsyel",
+    "name": "RSYEL",
+    "price": 25,
+    "currency": "USDT",
+    "description": "Agent Panel (Telegram, WhatsApp, Instagram, Facebook - High Traffic)",
+    "active": true
+  },
   {
     "id": "green-sms",
     "name": "GREEN SMS",
