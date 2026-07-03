@@ -1,0 +1,90 @@
+[
+  {
+    "id": "ims-panel",
+    "name": "IMS PANEL",
+    "price": 12,
+    "currency": "USDT",
+    "description": "Full-access client panel with standard support.",
+    "active": true
+  },
+  {
+    "id": "rsyel",
+    "name": "RSYEL",
+    "price": 25,
+    "currency": "USDT",
+    "description": "Reseller-tier panel for agents.",
+    "active": true
+  },
+  {
+    "id": "green-sms",
+    "name": "GREEN SMS",
+    "price": 10,
+    "currency": "USDT",
+    "description": "Reseller-tier panel for agents.",
+    "active": true
+  },
+  {
+    "id": "hadi-sms",
+    "name": "HADI SMS",
+    "price": 15,
+    "currency": "USDT",
+    "description": "Reseller-tier panel for agents.",
+    "active": true
+  },
+  {
+    "id": "orange-sms",
+    "name": "ORANGE SMS",
+    "price": 12,
+    "currency": "USDT",
+    "description": "Reseller-tier panel for agents.",
+    "active": true
+  },
+  {
+    "id": "7-one-tel",
+    "name": "7 ONE TEL",
+    "price": 20,
+    "currency": "USDT",
+    "description": "Reseller-tier panel for agents.",
+    "active": true
+  },
+  {
+    "id": "ins-panel",
+    "name": "INS PANEL",
+    "price": 8,
+    "currency": "USDT",
+    "description": "Reseller-tier panel for agents.",
+    "active": true
+  },
+  {
+    "id": "number-panel",
+    "name": "NUMBER PANEL",
+    "price": 20,
+    "currency": "USDT",
+    "description": "Number panel for OTP and SMS services.",
+    "active": true
+  },
+  {
+    "id": "7xtel",
+    "name": "7XTEL",
+    "price": 2,
+    "currency": "USDT",
+    "description": "Reseller-tier panel for agents.",
+    "active": true
+  },
+  {
+    "id": "mbc-sms",
+    "name": "MBC SMS",
+    "price": 5,
+    "currency": "USDT",
+    "description": "Reseller-tier panel for agents.",
+    "active": true
+  },
+  {
+    "id": "fast-x-otp",
+    "name": "FAST X OTP",
+    "price": 6,
+    "currency": "USDT",
+    "description": "Reseller-tier panel for agents.",
+    "active": true
+  }
+]
