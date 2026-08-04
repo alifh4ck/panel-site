@@ -2,89 +2,181 @@
   {
     "id": "ims-panel",
     "name": "IMS PANEL",
-    "price": 12,
+    "price": 18,
     "currency": "USDT",
-    "description": "Full-access client panel with standard support.",
-    "active": true
+    "active": true,
+    "description": "Reseller-tier panel for agents.",
+    "stock": "Available"
   },
   {
     "id": "rsyel",
     "name": "RSYEL",
     "price": 25,
     "currency": "USDT",
+    "active": true,
     "description": "Reseller-tier panel for agents.",
-    "active": true
+    "stock": "Available"
   },
   {
-    "id": "green-sms",
-    "name": "GREEN SMS",
-    "price": 10,
+    "id": "call-time-panel",
+    "name": "CALL TIME PANEL",
+    "price": 22,
     "currency": "USDT",
+    "active": true,
     "description": "Reseller-tier panel for agents.",
-    "active": true
+    "stock": "Available"
   },
   {
-    "id": "hadi-sms",
-    "name": "HADI SMS",
-    "price": 15,
-    "currency": "USDT",
-    "description": "Reseller-tier panel for agents.",
-    "active": true
-  },
-  {
-    "id": "orange-sms",
-    "name": "ORANGE SMS",
-    "price": 12,
-    "currency": "USDT",
-    "description": "Reseller-tier panel for agents.",
-    "active": true
-  },
-  {
-    "id": "7-one-tel",
-    "name": "7 ONE TEL",
+    "id": "sniper-panel",
+    "name": "SNIPER PANEL",
     "price": 20,
     "currency": "USDT",
+    "active": true,
     "description": "Reseller-tier panel for agents.",
-    "active": true
-  },
-  {
-    "id": "ins-panel",
-    "name": "INS PANEL",
-    "price": 8,
-    "currency": "USDT",
-    "description": "Reseller-tier panel for agents.",
-    "active": true
+    "stock": "Available"
   },
   {
     "id": "number-panel",
     "name": "NUMBER PANEL",
     "price": 20,
     "currency": "USDT",
-    "description": "Number panel for OTP and SMS services.",
-    "active": true
+    "active": true,
+    "description": "Reseller-tier panel for agents.",
+    "stock": "Available"
   },
   {
-    "id": "7xtel",
-    "name": "7XTEL",
-    "price": 2,
+    "id": "seven-1-tel",
+    "name": "SEVEN 1 TEL",
+    "price": 20,
     "currency": "USDT",
+    "active": true,
     "description": "Reseller-tier panel for agents.",
-    "active": true
+    "stock": "Available"
   },
   {
-    "id": "mbc-sms",
-    "name": "MBC SMS",
-    "price": 5,
+    "id": "fly-sms",
+    "name": "FLY SMS",
+    "price": 17,
     "currency": "USDT",
+    "active": true,
     "description": "Reseller-tier panel for agents.",
-    "active": true
+    "stock": "Available"
+  },
+  {
+    "id": "laxim-sms",
+    "name": "LAXIM SMS",
+    "price": 16,
+    "currency": "USDT",
+    "active": true,
+    "description": "Reseller-tier panel for agents.",
+    "stock": "Available"
+  },
+  {
+    "id": "hadi-sms",
+    "name": "HADI SMS",
+    "price": 15,
+    "currency": "USDT",
+    "active": true,
+    "description": "Reseller-tier panel for agents.",
+    "stock": "Available"
+  },
+  {
+    "id": "msi-panel",
+    "name": "MSI PANEL",
+    "price": 14,
+    "currency": "USDT",
+    "active": true,
+    "description": "Reseller-tier panel for agents.",
+    "stock": "Available"
+  },
+  {
+    "id": "orange-carrier",
+    "name": "ORANGE CARRIER",
+    "price": 12,
+    "currency": "USDT",
+    "active": true,
+    "description": "Reseller-tier panel for agents.",
+    "stock": "Available"
+  },
+  {
+    "id": "green-sms",
+    "name": "GREEN SMS",
+    "price": 10,
+    "currency": "USDT",
+    "active": true,
+    "description": "Reseller-tier panel for agents.",
+    "stock": "Available"
+  },
+  {
+    "id": "flex-sms",
+    "name": "FLEX SMS",
+    "price": 10,
+    "currency": "USDT",
+    "active": true,
+    "description": "Reseller-tier panel for agents.",
+    "stock": "Available"
+  },
+  {
+    "id": "ins-panel",
+    "name": "INS PANEL",
+    "price": 8,
+    "currency": "USDT",
+    "active": true,
+    "description": "Reseller-tier panel for agents.",
+    "stock": "Available"
   },
   {
     "id": "fast-x-otp",
     "name": "FAST X OTP",
     "price": 6,
     "currency": "USDT",
+    "active": true,
     "description": "Reseller-tier panel for agents.",
-    "active": true
+    "stock": "Available"
+  },
+  {
+    "id": "mbc-sms",
+    "name": "MBC SMS",
+    "price": 6,
+    "currency": "USDT",
+    "active": true,
+    "description": "Reseller-tier panel for agents.",
+    "stock": "Available"
+  },
+  {
+    "id": "sms-hub-pro",
+    "name": "SMS HUB PRO",
+    "price": 5,
+    "currency": "USDT",
+    "active": true,
+    "description": "Reseller-tier panel for agents.",
+    "stock": "Available"
+  },
+  {
+    "id": "vip-otp-panel",
+    "name": "VIP OTP PANEL",
+    "price": 5,
+    "currency": "USDT",
+    "active": true,
+    "description": "Reseller-tier panel for agents.",
+    "stock": "Available"
+  },
+  {
+    "id": "ultra-sms",
+    "name": "ULTRA SMS",
+    "price": 5,
+    "currency": "USDT",
+    "active": true,
+    "description": "Reseller-tier panel for agents.",
+    "stock": "Available"
+  },
+  {
+    "id": "7xtel",
+    "name": "7XTEL",
+    "price": 3,
+    "currency": "USDT",
+    "active": true,
+    "description": "Reseller-tier panel for agents.",
+    "stock": "Available"
   }
 ]
