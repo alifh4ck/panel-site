@@ -1,14 +1,12 @@
 # 🚀 SMS & OTP Panel Store
 
 ```{=html}
-<p align="center">
 ```
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![Stock](https://img.shields.io/badge/Stock-Available-blue)
 ![Currency](https://img.shields.io/badge/Currency-USDT-orange)
 
 ```{=html}
-</p>
 ```
 ## 🌟 Welcome
 
@@ -55,10 +53,8 @@ Need help? Feel free to contact us anytime.
 ------------------------------------------------------------------------
 
 ```{=html}
-<p align="center">
 ```
 ⭐ If you like our service, don't forget to star this repository.
 `<br>`{=html} Thank you for visiting! ❤️
 ```{=html}
-</p>
 ```
