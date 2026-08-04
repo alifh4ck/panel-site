@@ -49,4 +49,4 @@ Need help? Feel free to contact us anytime.
 ------------------------------------------------------------------------
 
 ⭐ If you like our service, don't forget to star this repository.
-`<br>`{=html} Thank you for visiting! ❤️
+Thank you for visiting! ❤️
