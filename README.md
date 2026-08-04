@@ -1,35 +1,64 @@
-Panel Site (USDT BEP20 Manual Verify)
-এই ওয়েবসাইট দিয়ে আমি আমার প্যানেল/প্রোডাক্টগুলো লিস্ট করতে পারবো এবং কাস্টমাররা USDT (BEP20) পেমেন্ট করার পর TxID সাবমিট করতে পারবে। এরপর আমি Admin Panel থেকে অর্ডার Approve/Reject করবো।
-Features
-User Side
-• Products/Panel list দেখা
-• Checkout: Email + Transaction Hash (TxID) সাবমিট
-• Wallet address + Network info দেখা
-• Order Status দেখা (PENDING / PAID / REJECTED)
-• Order-based messaging (customer ↔ admin)
-Admin Side
-• Admin panel (password protected)
-• Product add/edit/delete + active toggle
-• Orders list দেখা
-• Approve (PAID) / Reject করা
-• Order messages দেখা + reply
-Payment Info
-• Network: BSC (BEP20)
-• Currency: Fixed USDT
-• Wallet Address:  0xa5de3c79c11ffbd55f08b3a5390b7c42fb6cea50 
-• Payment verification: Manual (Admin approve)
-How to Use (Live)
-• User site:  /index.html 
-• Admin panel:  /admin.html 
-• Admin password: (নিজের কাছে রাখুন)
-Notes / Limitations
-• এটা HTML/JS static সাইট।
-• ডাটা browser localStorage এ সেভ হয়:
-• যে ডিভাইসে/ব্রাউজারে admin product add করবেন, সাধারণত সেই ডিভাইসেই থাকবে।
-• অন্য ফোন/PC তে একই ডাটা অটো দেখাবে না।
-• Production-grade secure login/central database চাইলে backend (Next.js + database) লাগবে।
-Files
-•  index.html  = User site
-•  admin.html  = Admin panel
-•  app.js  = Core logic + localStorage store
+# 🚀 SMS & OTP Panel Store
 
+```{=html}
+<p align="center">
+```
+![Status](https://img.shields.io/badge/Status-Active-success)
+![Stock](https://img.shields.io/badge/Stock-Available-blue)
+![Currency](https://img.shields.io/badge/Currency-USDT-orange)
+
+```{=html}
+</p>
+```
+## 🌟 Welcome
+
+Welcome to the **SMS & OTP Panel Store**. We provide reliable
+reseller-tier SMS and OTP panels with fast delivery and stable
+performance.
+
+## ✨ Why Choose Us?
+
+-   🚀 Fast Delivery
+-   🔒 Stable & Reliable Service
+-   💼 Reseller-Friendly Panels
+-   💬 Responsive Support
+-   📦 Products Available in Stock
+
+## 📋 Product Features
+
+-   💰 Prices listed in **USDT**
+-   📝 Every product includes a reseller-tier description.
+-   📦 Stock status: **Available**
+-   ⚡ Ready for instant delivery.
+
+## 🛒 How to Order
+
+``` text
+1. Choose your preferred panel.
+2. Contact the seller.
+3. Complete the payment.
+4. Receive your panel details.
+```
+
+## ⚠️ Terms
+
+> Digital products are delivered electronically.
+>
+> Prices may change without prior notice.
+>
+> Please verify your order before making payment.
+
+## ❤️ Support
+
+Need help? Feel free to contact us anytime.
+
+------------------------------------------------------------------------
+
+```{=html}
+<p align="center">
+```
+⭐ If you like our service, don't forget to star this repository.
+`<br>`{=html} Thank you for visiting! ❤️
+```{=html}
+</p>
+```
