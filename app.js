@@ -200,3 +200,4 @@ window.PanelShop = {
   deleteProduct,
   updateSettings,
 };
+            
