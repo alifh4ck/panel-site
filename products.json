@@ -162,9 +162,9 @@
     "stock": "Available"
   },
   {
-    "id": "ultra-sms",
-    "name": "ULTRA SMS",
-    "price": 5,
+    "id": "voicegate-sms",
+    "name": "VOICEGATE SMS",
+    "price": 2,
     "currency": "USDT",
     "active": true,
     "description": "Reseller-tier panel for agents.",
