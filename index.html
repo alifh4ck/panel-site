@@ -1,0 +1,1420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Panel Shop — Digital Panels via USDT</title>
+<link rel="icon" type="image/svg+xml" href="./logo.svg" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg: #0A0D12;
+    --bg-2: #0D1119;
+    --surface: #12171F;
+    --surface-2: #171E28;
+    --border: rgba(148,169,199,0.14);
+    --border-strong: rgba(148,169,199,0.26);
+    --text: #EDF1F7;
+    --muted: #8C9AB0;
+    --muted-2: #5F6D80;
+    --accent: #2FE0A6;
+    --accent-dim: rgba(47,224,166,0.12);
+    --accent-line: rgba(47,224,166,0.35);
+    --amber: #F2B84B;
+    --amber-dim: rgba(242,184,75,0.12);
+    --danger: #FF6B6B;
+    --danger-dim: rgba(255,107,107,0.12);
+    --font-display: "Space Grotesk", ui-sans-serif, sans-serif;
+    --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { width: 100%; overflow-x: hidden; }
+  body{
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--text);
+    background:
+      radial-gradient(1000px 500px at 8% -5%, rgba(47,224,166,0.06), transparent 60%),
+      radial-gradient(800px 420px at 100% 0%, rgba(242,184,75,0.04), transparent 55%),
+      var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  ::selection{ background: var(--accent-dim); color: var(--text); }
+
+  .wrap{ max-width: 880px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- Header ---------- */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,13,18,.72);
+    backdrop-filter: blur(12px);
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: .2px;
+  }
+  .brand .mark{
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(155deg, var(--accent), #1AA57D);
+    display:flex; align-items:center; justify-content:center;
+    color: #06120D;
+    font-weight: 700;
+    font-size: 14px;
+    flex: none;
+  }
+  .header-note{
+    font-size: 12.5px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .header-note .dot{
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-dim);
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding: 44px 0 8px;
+  }
+  .eyebrow{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .eyebrow::before{
+    content: "";
+    width: 16px; height: 1px;
+    background: var(--accent-line);
+  }
+  h1{
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4.2vw, 38px);
+    line-height: 1.15;
+    margin: 0 0 12px;
+    letter-spacing: -.01em;
+  }
+  .lede{
+    color: var(--muted);
+    font-size: 15.5px;
+    line-height: 1.6;
+    max-width: 56ch;
+    margin: 0 0 30px;
+  }
+
+  /* Process steps — genuinely sequential, so numbering is warranted */
+  .steps{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--surface);
+    margin-bottom: 36px;
+  }
+  .step{
+    padding: 16px 16px 18px;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .step:last-child{ border-right: none; }
+  .step .n{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .step .t{
+    font-weight: 600;
+    font-size: 13.5px;
+    margin-bottom: 4px;
+  }
+  .step .d{
+    font-size: 12px;
+    color: var(--muted-2);
+    line-height: 1.45;
+  }
+
+  @media (max-width: 720px){
+    .steps{ grid-template-columns: repeat(2, 1fr); }
+    .step:nth-child(2){ border-right: none; }
+    .step:nth-child(1), .step:nth-child(2){ border-bottom: 1px solid var(--border); }
+  }
+
+  h2{
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: -.01em;
+    margin: 0 0 4px;
+  }
+  .section-sub{
+    color: var(--muted-2);
+    font-size: 13px;
+    margin: 0 0 18px;
+  }
+  .section{ padding: 30px 0; }
+  hr.sep{ border:0; border-top: 1px solid var(--border); margin: 0; }
+
+  /* ---------- Cards / product grid ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    transition: transform .18s ease, border-color .18s ease, background .18s ease;
+  }
+  .card:hover{
+    transform: translateY(-2px);
+    border-color: var(--border-strong);
+    background: var(--surface-2);
+  }
+  .prod-head{
+    display:flex; justify-content:space-between; align-items: flex-start; gap: 10px;
+  }
+  .prod-name{ font-weight: 600; font-size: 15px; }
+  .prod-price{
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .prod-desc{
+    color: var(--muted); font-size: 13px; line-height: 1.5; margin-top: 8px;
+  }
+
+  .btn{
+    border: none;
+    cursor: pointer;
+    color: #06120D;
+    background: var(--accent);
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 13.5px;
+    transition: filter .15s ease, transform .1s ease;
+  }
+  .btn:hover{ filter: brightness(1.06); }
+  .btn:active{ transform: translateY(1px); }
+  .btn.secondary{
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--border-strong);
+  }
+  .btn.block{ width: 100%; }
+
+  input, textarea{
+    width:100%;
+    padding: 11px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-strong);
+    background: var(--bg-2);
+    color: var(--text);
+    outline: none;
+    font-family: var(--font-body);
+    font-size: 14px;
+  }
+  input::placeholder, textarea::placeholder{ color: var(--muted-2); }
+  input:focus, textarea:focus{
+    border-color: var(--accent-line);
+    box-shadow: 0 0 0 3px var(--accent-dim);
+  }
+  label{
+    display:block;
+    margin: 0 0 6px;
+    font-size: 12.5px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .row{ display:flex; gap:10px; }
+  .row > *{ flex: 1; }
+
+  @media (max-width: 640px){
+    .rowStack, .rowStackModal{ flex-direction: column !important; gap: 12px !important; }
+  }
+
+  /* ---------- Order status pill ---------- */
+  .status{
+    display:inline-flex;
+    align-items:center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+  }
+  .status.PENDING{ background: var(--amber-dim); color: var(--amber); }
+  .status.VERIFIED, .status.DELIVERED, .status.CONFIRMED{ background: var(--accent-dim); color: var(--accent); }
+  .status.REJECTED, .status.FAILED{ background: var(--danger-dim); color: var(--danger); }
+
+  /* ---------- Receipt-style blocks (signature element) ---------- */
+  .receipt{
+    background: var(--bg-2);
+    border: 1px dashed var(--border-strong);
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .receipt + .receipt{ margin-top: 10px; }
+  .receipt-row{
+    display:flex; justify-content:space-between; gap: 12px;
+    font-size: 13px;
+    padding: 5px 0;
+  }
+  .receipt-row .k{ color: var(--muted-2); }
+  .receipt-row .v{ font-family: var(--font-mono); font-size: 12.5px; text-align: right; word-break: break-all; }
+  .receipt-div{ border-top: 1px dashed var(--border); margin: 8px 0; }
+
+  .tx-copy{
+    margin-top: 12px;
+    padding: 14px;
+    border-radius: 12px;
+    background: var(--bg-2);
+    border: 1px dashed var(--border-strong);
+    cursor: pointer;
+    user-select: none;
+    transition: border-color .2s ease;
+  }
+  .tx-copy:hover{ border-color: var(--accent-line); }
+  .tx-label{ font-size: 11px; color: var(--muted-2); text-transform: uppercase; letter-spacing: .04em; }
+  .tx-value{
+    margin-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    word-break: break-all;
+    line-height: 1.4;
+  }
+  .copy-hint{
+    margin-top: 10px;
+    display:flex; align-items:center; justify-content: space-between;
+    font-size: 11.5px; color: var(--muted-2);
+  }
+  .copy-chip{
+    display:inline-flex; align-items:center; gap: 6px;
+    padding: 4px 9px; border-radius: 999px;
+    background: var(--accent-dim); color: var(--accent);
+    font-family: var(--font-mono); font-size: 11px;
+  }
+
+  .msg{
+    padding: 11px 13px;
+    border-radius: 10px;
+    margin: 8px 0;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    font-size: 13.5px;
+  }
+  .msg .who{ color: var(--accent); font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; }
+  .msg .when{ color: var(--muted-2); font-size: 11px; }
+  .msg .text{ margin-top: 5px; line-height: 1.5; }
+
+  code{
+    font-family: var(--font-mono);
+    background: var(--bg-2);
+    padding: 2px 6px;
+    border-radius: 6px;
+    word-break: break-all;
+    font-size: 13px;
+  }
+
+  .hint{ color: var(--muted-2); font-size: 12.5px; margin-top: 10px; }
+
+  /* ---------- Modal ---------- */
+  .modal-backdrop{
+    position: fixed; inset: 0;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 18px;
+    background: rgba(5,7,10,.7);
+    backdrop-filter: blur(6px);
+    z-index: 9999;
+  }
+  .modal{
+    width: 100%; max-width: 640px;
+    max-height: 92vh;
+    overflow-y: auto;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 30px 90px rgba(0,0,0,.55);
+    animation: floatIn .2s ease both;
+  }
+  @keyframes floatIn{ from{ opacity:0; transform: translateY(8px); } to{ opacity:1; transform: translateY(0); } }
+  .modal-head{
+    display:flex; justify-content:space-between; align-items:center; gap: 10px;
+    margin-bottom: 16px;
+  }
+  .modal-head h3{ margin: 0; font-family: var(--font-display); font-size: 18px; }
+
+  .toast{
+    position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%);
+    background: var(--surface-2);
+    border: 1px solid var(--accent-line);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.45);
+    display:none;
+    z-index: 99999;
+  }
+
+  footer{
+    border-top: 1px solid var(--border);
+    padding: 26px 0 40px;
+    color: var(--muted-2);
+    font-size: 12.5px;
+  }
+
+  .sectionIn{ animation: fadeUp .4s ease both; }
+  @keyframes fadeUp{ from{ opacity:0; transform: translateY(6px); } to{ opacity:1; transform: translateY(0); } }
+
+  /* ---------- Ambient background ---------- */
+  .ambient{
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .orb{
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: .5;
+    animation: drift 22s ease-in-out infinite;
+  }
+  .orb.o1{ width: 420px; height: 420px; left: -120px; top: -140px; background: radial-gradient(circle, rgba(47,224,166,.20), transparent 70%); }
+  .orb.o2{ width: 380px; height: 380px; right: -140px; top: 8%; background: radial-gradient(circle, rgba(242,184,75,.14), transparent 70%); animation-delay: -8s; animation-duration: 26s; }
+  .orb.o3{ width: 320px; height: 320px; left: 30%; bottom: -160px; background: radial-gradient(circle, rgba(47,224,166,.10), transparent 70%); animation-delay: -14s; animation-duration: 30s; }
+  @keyframes drift{
+    0%, 100%{ transform: translate(0,0) scale(1); }
+    50%{ transform: translate(24px,-18px) scale(1.06); }
+  }
+  .grid-veil{
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(148,169,199,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148,169,199,0.05) 1px, transparent 1px);
+    background-size: 42px 42px;
+    -webkit-mask-image: radial-gradient(700px 420px at 50% 0%, #000 0%, transparent 75%);
+            mask-image: radial-gradient(700px 420px at 50% 0%, #000 0%, transparent 75%);
+  }
+
+  /* ---------- Trust bar ---------- */
+  .trust-bar{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+  .trust-item{
+    display:flex;
+    align-items:flex-start;
+    gap: 10px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .trust-item:hover{ border-color: var(--accent-line); transform: translateY(-1px); }
+  .trust-item .ic{
+    flex: none;
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .trust-item .tt{ font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+  .trust-item .td{ font-size: 11.5px; color: var(--muted-2); line-height: 1.4; }
+  @media (max-width: 720px){ .trust-bar{ grid-template-columns: 1fr; } }
+
+  .verify-chip{
+    display:inline-flex;
+    align-items:center;
+    gap: 6px;
+    padding: 5px 10px 5px 8px;
+    border-radius: 999px;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-line);
+    color: var(--accent);
+    font-size: 11.5px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    letter-spacing: .02em;
+  }
+  .verify-chip svg{ flex: none; }
+
+  /* ---------- Card tilt / shine ---------- */
+  .card{ position: relative; will-change: transform; }
+  .card::before{
+    content: "";
+    position: absolute; inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(180px circle at var(--mx,50%) var(--my,50%), rgba(47,224,166,.10), transparent 70%);
+    opacity: 0;
+    transition: opacity .25s ease;
+    pointer-events: none;
+  }
+  .card:hover::before{ opacity: 1; }
+
+  /* ---------- Explorer link ---------- */
+  .explorer-link{
+    display:inline-flex; align-items:center; gap: 5px;
+    margin-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--accent);
+  }
+  .explorer-link:hover{ text-decoration: underline; }
+
+  /* ---------- Live pulse on pending status ---------- */
+  .status.PENDING .pulse-dot{
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--amber);
+    display:inline-block;
+    animation: pulseDot 1.4s ease-in-out infinite;
+  }
+  @keyframes pulseDot{
+    0%, 100%{ box-shadow: 0 0 0 0 rgba(242,184,75,.5); }
+    50%{ box-shadow: 0 0 0 5px rgba(242,184,75,0); }
+  }
+
+  /* ---------- Scroll reveal ---------- */
+  .reveal{ opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s ease; }
+  .reveal.in{ opacity: 1; transform: translateY(0); }
+
+  /* Modal entrance polish */
+  .modal-backdrop[style*="flex"]{ animation: backdropIn .18s ease both; }
+  @keyframes backdropIn{ from{ opacity: 0; } to{ opacity: 1; } }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+    .orb{ animation: none; }
+  }
+
+  /* ---------- Nav links ---------- */
+  .nav-links{ display:flex; align-items:center; gap: 18px; }
+  .nav-link{
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    transition: color .15s ease;
+  }
+  .nav-link:hover{ color: var(--text); }
+  @media (max-width: 680px){ .nav-links{ display:none; } }
+
+  /* ---------- Contact / Help section ---------- */
+  .contact-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 720px){ .contact-grid{ grid-template-columns: 1fr; } }
+  .contact-card{
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    transition: transform .18s ease, border-color .18s ease, background .18s ease;
+  }
+  .contact-card:hover{
+    transform: translateY(-2px);
+    border-color: var(--accent-line);
+    background: var(--surface-2);
+  }
+  .contact-card .ic{
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    display:flex; align-items:center; justify-content:center;
+    flex: none;
+  }
+  .contact-card .ct-label{
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--muted-2);
+    font-family: var(--font-mono);
+  }
+  .contact-card .ct-value{
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    word-break: break-word;
+  }
+  .contact-card .ct-cta{
+    margin-top: auto;
+    font-size: 12.5px;
+    color: var(--accent);
+    display:inline-flex; align-items:center; gap: 5px;
+  }
+
+  /* ---------- Floating help button ---------- */
+  .help-fab{
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 9998;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: var(--accent);
+    color: #06120D;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 14px 34px rgba(47,224,166,.28);
+    transition: transform .18s ease, filter .15s ease;
+  }
+  .help-fab:hover{ transform: translateY(-2px); filter: brightness(1.06); }
+  .help-fab:active{ transform: translateY(0); }
+
+  .help-panel{
+    position: fixed;
+    right: 20px;
+    bottom: 84px;
+    z-index: 9998;
+    width: min(300px, calc(100vw - 40px));
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 30px 90px rgba(0,0,0,.55);
+    display: none;
+  }
+  .help-panel.open{ display:block; animation: floatIn .18s ease both; }
+  .help-panel h4{
+    margin: 0 0 4px;
+    font-family: var(--font-display);
+    font-size: 15px;
+  }
+  .help-panel .hp-sub{
+    color: var(--muted-2);
+    font-size: 12px;
+    margin: 0 0 14px;
+  }
+  .hp-row{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    padding: 10px 8px;
+    border-radius: 10px;
+    transition: background .15s ease;
+  }
+  .hp-row:hover{ background: var(--bg-2); }
+  .hp-row .ic{
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    display:flex; align-items:center; justify-content:center;
+    flex: none;
+  }
+  .hp-row .hp-text{ display:flex; flex-direction:column; gap: 1px; min-width: 0; }
+  .hp-row .hp-k{ font-size: 11px; color: var(--muted-2); }
+  .hp-row .hp-v{ font-size: 13px; color: var(--text); font-weight: 500; overflow:hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* ---------- Business info ---------- */
+  .info-card{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .info-block{ flex: 1 1 220px; min-width: 200px; }
+  .info-block .ib-k{
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--muted-2);
+    margin-bottom: 6px;
+  }
+  .info-block .ib-v{ font-size: 13.5px; line-height: 1.55; color: var(--text); }
+  .info-block .ib-v a{ color: var(--accent); }
+
+  /* ---------- Policy list ---------- */
+  .policy-list{
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .policy-item{
+    display:flex;
+    gap: 12px;
+    align-items:flex-start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .policy-item .ic{
+    flex: none;
+    width: 26px; height: 26px;
+    border-radius: 7px;
+    display:flex; align-items:center; justify-content:center;
+    margin-top: 1px;
+  }
+  .policy-item.ok .ic{ background: var(--accent-dim); color: var(--accent); }
+  .policy-item.no .ic{ background: var(--danger-dim); color: var(--danger); }
+  .policy-item .pt{ font-size: 13.5px; font-weight: 600; margin-bottom: 2px; }
+  .policy-item .pd{ font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
+  /* ---------- FAQ accordion ---------- */
+  .faq{ display:flex; flex-direction:column; gap: 10px; }
+  .faq-item{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color .18s ease;
+  }
+  .faq-item[open]{ border-color: var(--border-strong); }
+  .faq-item summary{
+    list-style: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+  .faq-item summary::-webkit-details-marker{ display:none; }
+  .faq-item summary .chev{
+    flex: none;
+    color: var(--muted-2);
+    transition: transform .2s ease;
+  }
+  .faq-item[open] summary .chev{ transform: rotate(45deg); color: var(--accent); }
+  .faq-item .faq-a{
+    padding: 0 16px 16px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+</style>
+</head>
+
+<body>
+  <script src="./app.js"></script>
+
+  <div class="ambient" aria-hidden="true">
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+    <div class="orb o3"></div>
+    <div class="grid-veil"></div>
+  </div>
+
+  <header>
+    <div class="brand">
+      <span class="mark" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#06120D" stroke-width="2.6" stroke-linecap="round">
+            <line x1="8" y1="13" x2="32" y2="13"/>
+            <line x1="8" y1="20" x2="32" y2="20"/>
+            <line x1="8" y1="27" x2="32" y2="27"/>
+          </g>
+          <circle cx="15" cy="13" r="3.1" fill="#06120D"/>
+          <circle cx="26" cy="20" r="3.1" fill="#06120D"/>
+          <circle cx="12" cy="27" r="3.1" fill="#06120D"/>
+        </svg>
+      </span>
+      <span>Panel Shop</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:14px;">
+      <nav class="nav-links">
+        <a class="nav-link" href="#products">Products</a>
+        <a class="nav-link" href="#track">Track order</a>
+        <a class="nav-link" href="#policy">Refund policy</a>
+        <a class="nav-link" href="#faq">FAQ</a>
+        <a class="nav-link" href="#contact">Contact</a>
+      </nav>
+      <span class="verify-chip">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2l7 3v6c0 5-3.5 8.5-7 11-3.5-2.5-7-6-7-11V5l7-3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Verified payment
+      </span>
+    </div>
+  </header>
+
+  <div class="wrap">
+
+    <section class="hero">
+      <div class="eyebrow sectionIn">How ordering works</div>
+      <h1 class="sectionIn">Buy your panel, pay in USDT, track every step.</h1>
+      <p class="lede sectionIn">Pick a panel below, send payment to the wallet address shown at checkout, then submit your transaction ID. You'll get an Order ID to track status and message support at any time.</p>
+
+      <div class="steps sectionIn">
+        <div class="step">
+          <div class="n">01</div>
+          <div class="t">Choose a panel</div>
+          <div class="d">Pick the plan that fits and open checkout.</div>
+        </div>
+        <div class="step">
+          <div class="n">02</div>
+          <div class="t">Send USDT</div>
+          <div class="d">Pay the exact amount to the wallet shown.</div>
+        </div>
+        <div class="step">
+          <div class="n">03</div>
+          <div class="t">Submit your TxID</div>
+          <div class="d">Paste your transaction hash to confirm payment.</div>
+        </div>
+        <div class="step">
+          <div class="n">04</div>
+          <div class="t">Track & message us</div>
+          <div class="d">Use your Order ID to check status anytime.</div>
+        </div>
+      </div>
+
+      <div class="trust-bar reveal">
+        <div class="trust-item">
+          <span class="ic" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2l7 3v6c0 5-3.5 8.5-7 11-3.5-2.5-7-6-7-11V5l7-3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div>
+            <div class="tt">Verified before delivery</div>
+            <div class="td">Every TxID is checked against the network before an order is marked verified.</div>
+          </div>
+        </div>
+        <div class="trust-item">
+          <span class="ic" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3.2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span>
+          <div>
+            <div class="tt">Live order tracking</div>
+            <div class="td">Look up your Order ID anytime to see real-time status.</div>
+          </div>
+        </div>
+        <div class="trust-item">
+          <span class="ic" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v11H8l-4 4V5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          </span>
+          <div>
+            <div class="tt">Direct support thread</div>
+            <div class="td">Message support on your order and get replies in the same thread.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <h2>Products</h2>
+      <p class="section-sub">All prices in USDT.</p>
+      <div id="products" class="grid"></div>
+      <div id="prodHint" class="hint"></div>
+    </section>
+
+    <hr class="sep" />
+
+    <section class="section reveal" id="about">
+      <h2>Business info</h2>
+      <p class="section-sub">Who you're buying from.</p>
+      <div class="info-card">
+        <div class="info-block">
+          <div class="ib-k">Store name</div>
+          <div class="ib-v">Panel Shop</div>
+        </div>
+        <div class="info-block">
+          <div class="ib-k">What we sell</div>
+          <div class="ib-v">Digital panel access, paid in USDT. Orders are verified manually against the on-chain transaction before delivery.</div>
+        </div>
+        <div class="info-block">
+          <div class="ib-k">Support channels</div>
+          <div class="ib-v">
+            <a href="mailto:no-reply.numberpanel@outlook.com">Email</a>
+          </div>
+        </div>
+        <div class="info-block">
+          <div class="ib-k">After you order</div>
+          <div class="ib-v">Panel details are sent to your email, or to your Telegram — you'll be added to the managers' group with your account information.</div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="sep" />
+
+    <section class="section reveal" id="track">
+      <h2>Track your order</h2>
+      <p class="section-sub">Enter the Order ID and email you used at checkout.</p>
+
+      <div class="card">
+        <div class="row rowStack">
+          <div>
+            <label>Order ID</label>
+            <input id="lookupOrderId" placeholder="order_xxx..." />
+          </div>
+          <div>
+            <label>Email</label>
+            <input id="lookupEmail" placeholder="your@email.com" />
+          </div>
+        </div>
+
+        <button class="btn secondary block" id="btnLookup" style="margin-top:12px;">Load order</button>
+
+        <div id="orderBox" style="margin-top:16px; display:none;">
+          <div class="receipt sectionIn">
+            <div class="receipt-row"><span class="k">Order</span><span class="v" id="o_id"></span></div>
+            <div class="receipt-row"><span class="k">Status</span><span class="v"><span id="o_status" class="status">-</span></span></div>
+            <div class="receipt-div"></div>
+            <div class="receipt-row"><span class="k">Product</span><span class="v" id="o_prod"></span></div>
+            <div class="receipt-row"><span class="k">Name</span><span class="v" id="o_name"></span></div>
+            <div class="receipt-row"><span class="k">Telegram</span><span class="v" id="o_tg"></span></div>
+          </div>
+
+          <div class="tx-copy" id="txCopyBox" title="Tap to copy">
+            <div class="tx-label">Transaction ID</div>
+            <div class="tx-value" id="o_tx_big">-</div>
+            <div class="copy-hint">
+              <span>Tap to copy</span>
+              <span class="copy-chip">Copy</span>
+            </div>
+          </div>
+          <a class="explorer-link" id="explorerLink" href="#" target="_blank" rel="noopener" style="display:none;">
+            View transaction on BscScan
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7v9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+
+          <h3 style="margin: 20px 0 10px; font-family: var(--font-display); font-size: 15px;">Messages</h3>
+          <div id="msgs"></div>
+
+          <label style="margin-top: 10px;">Write a message</label>
+          <textarea id="msgText" rows="3" placeholder="Write your message..."></textarea>
+          <button class="btn block" id="btnSendMsg" style="margin-top:10px;">Send</button>
+        </div>
+      </div>
+    </section>
+
+    <hr class="sep" />
+
+    <section class="section reveal" id="policy">
+      <h2>Refund &amp; dispute policy</h2>
+      <p class="section-sub">Clear terms, so there are no surprises.</p>
+
+      <div class="policy-list">
+        <div class="policy-item ok">
+          <span class="ic" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div>
+            <div class="pt">Wrong or duplicate payment</div>
+            <div class="pd">If you send the wrong amount, or pay twice by mistake, contact support with your Order ID and TxID — refunds for these cases are reviewed and processed once verified.</div>
+          </div>
+        </div>
+        <div class="policy-item ok">
+          <span class="ic" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div>
+            <div class="pt">Payment sent but not delivered</div>
+            <div class="pd">If your TxID is confirmed on-chain but the panel wasn't delivered, message support — this is resolved by delivery or refund, whichever you prefer.</div>
+          </div>
+        </div>
+        <div class="policy-item no">
+          <span class="ic" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div>
+            <div class="pt">After the panel is activated</div>
+            <div class="pd">Once a panel has been delivered and activated on your account, it can't be refunded for change of mind.</div>
+          </div>
+        </div>
+        <div class="policy-item no">
+          <span class="ic" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div>
+            <div class="pt">Sent to the wrong wallet or network</div>
+            <div class="pd">Crypto transactions can't be reversed once confirmed. Always double-check the wallet address and network shown at checkout before sending.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hint" style="margin-top:14px;">
+        <strong style="color: var(--text);">Disputes:</strong> open one via the order message thread above or contact support directly with your Order ID and TxID — disputes are reviewed within 12–24 hours.
+      </div>
+    </section>
+
+    <hr class="sep" />
+
+    <section class="section reveal" id="faq">
+      <h2>FAQ</h2>
+      <p class="section-sub">Common questions about paying safely.</p>
+
+      <div class="faq">
+        <details class="faq-item">
+          <summary>Is it safe to pay in USDT before I get the panel?
+            <span class="chev" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </span>
+          </summary>
+          <div class="faq-a">Every order is checked manually against the transaction on-chain before it's marked verified. Always confirm the wallet address and network shown in the checkout modal — never send funds to an address from anywhere else.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>What if I sent the wrong amount?
+            <span class="chev" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </span>
+          </summary>
+          <div class="faq-a">Submit your TxID as normal, then message support with your Order ID. Underpayments and overpayments are reviewed case by case — see the refund policy above.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>How long does verification take?
+            <span class="chev" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </span>
+          </summary>
+          <div class="faq-a">Most orders are checked once the transaction has enough network confirmations. You can track live status anytime under "Track your order" using your Order ID and email.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I get a refund after the panel is delivered?
+            <span class="chev" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </span>
+          </summary>
+          <div class="faq-a">No — once a panel is activated it can't be refunded for change of mind. If something's wrong with what was delivered, contact support and it'll be looked into.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>How do I contact support?
+            <span class="chev" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </span>
+          </summary>
+          <div class="faq-a">Use the message thread on your order, the contact section below, or the help button in the corner of the page — email is monitored, and Telegram if you gave a username at checkout.</div>
+        </details>
+      </div>
+    </section>
+
+    <hr class="sep" />
+
+    <section class="section reveal" id="contact">
+      <h2>Contact &amp; help</h2>
+      <p class="section-sub">Reach us directly — usually a reply within a few hours.</p>
+
+      <div class="contact-grid" style="grid-template-columns: 1fr;">
+        <a class="contact-card" href="mailto:no-reply.numberpanel@outlook.com">
+          <span class="ic" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v14H4V5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M4 6l8 7 8-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div class="ct-label">Email</div>
+          <div class="ct-value">no-reply.numberpanel@outlook.com</div>
+          <span class="ct-cta">Send an email
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7v9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+      </div>
+
+      <div class="hint" style="margin-top:14px;">
+        After you order, panel details are sent to your email — or, if you gave a Telegram username at checkout, your account information is sent there and you're added to the managers' group.
+      </div>
+    </section>
+
+    <footer>
+      <span class="verify-chip" style="margin-bottom:10px;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2l7 3v6c0 5-3.5 8.5-7 11-3.5-2.5-7-6-7-11V5l7-3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Verified payment
+      </span>
+      <p style="margin: 10px 0 0;">Payments are verified manually against the submitted transaction ID on-chain. Keep your Order ID to track status and message support.</p>
+      <p style="margin: 10px 0 0;">Need help? Email <a href="mailto:no-reply.numberpanel@outlook.com">no-reply.numberpanel@outlook.com</a></p>
+    </footer>
+  </div>
+
+  <!-- Floating help button + quick contact panel -->
+  <button class="help-fab" id="helpFab" aria-label="Contact support" title="Contact support">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 18h.01M9.5 9.2a2.5 2.5 0 013.9-2.06c.98.66 1.35 1.9.86 2.98-.4.88-1.2 1.28-1.83 1.7-.6.4-.93.86-.93 1.68" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/></svg>
+  </button>
+
+  <div class="help-panel" id="helpPanel">
+    <h4>Need a hand?</h4>
+    <p class="hp-sub">We usually reply within a few hours.</p>
+
+    <a class="hp-row" href="mailto:no-reply.numberpanel@outlook.com">
+      <span class="ic" aria-hidden="true">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v14H4V5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M4 6l8 7 8-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="hp-text"><span class="hp-k">Email</span><span class="hp-v">no-reply.numberpanel@outlook.com</span></span>
+    </a>
+    <p class="hint" style="margin-top:8px; margin-bottom:0;">Panel details are sent to your email, or to your Telegram if you provided one at checkout.</p>
+  </div>
+
+  <!-- Checkout modal -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Checkout</h3>
+        <button class="btn secondary" id="btnClose" style="width:auto;">Close</button>
+      </div>
+
+      <div class="receipt">
+        <div class="receipt-row"><span class="k">Product</span><span class="v" id="m_prod"></span></div>
+        <div class="receipt-row"><span class="k">Amount</span><span class="v" id="m_amount"></span></div>
+      </div>
+
+      <div class="receipt" style="margin-top:10px;">
+        <div class="hint" style="margin-top:0; margin-bottom:8px;">Send payment to:</div>
+        <div class="receipt-row"><span class="k">Network</span><span class="v" id="m_net"></span></div>
+        <div class="receipt-row"><span class="k">Wallet</span><span class="v" id="m_wallet"></span></div>
+        <div class="hint" id="m_note" style="margin-top:8px;"></div>
+      </div>
+
+      <div class="row rowStackModal" style="margin-top:14px;">
+        <div>
+          <label>Your name</label>
+          <input id="m_name" placeholder="Your full name" />
+        </div>
+        <div>
+          <label>Telegram username</label>
+          <input id="m_tg" placeholder="@username" />
+        </div>
+      </div>
+
+      <div class="row rowStackModal" style="margin-top:12px;">
+        <div>
+          <label>Email</label>
+          <input id="m_email" placeholder="your@email.com" />
+        </div>
+        <div>
+          <label>TxID (transaction hash)</label>
+          <input id="m_txid" placeholder="0x..." />
+        </div>
+      </div>
+
+      <button class="btn block" id="btnSubmitOrder" style="margin-top:16px;">Submit & verify</button>
+      <div id="m_result" style="display:none; margin-top:14px;"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Copied</div>
+
+  <script>
+    const S = window.PanelShop;
+
+    const productsEl = document.getElementById("products");
+    const prodHint = document.getElementById("prodHint");
+    const modal = document.getElementById("modalBackdrop");
+    const btnClose = document.getElementById("btnClose");
+    const btnSubmit = document.getElementById("btnSubmitOrder");
+
+    let selectedProduct = null;
+
+    const FORMSPREE_URL = "https://formspree.io/f/xeeblgkr";
+    const REMOTE_PRODUCTS_URL = "https://raw.githubusercontent.com/alifh4ck/panel-site/main/products.json";
+
+    function escapeHtml(s) {
+      return String(s || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function statusPillHtml(status){
+      const dot = status === "PENDING" ? `<span class="pulse-dot"></span>` : "";
+      return `<span class="status ${escapeHtml(status)}">${dot}${escapeHtml(status)}</span>`;
+    }
+
+    function explorerUrlFor(network, txId){
+      if (!txId) return null;
+      const n = String(network || "").toUpperCase();
+      if (n.includes("BSC") || n.includes("BEP20")) return `https://bscscan.com/tx/${encodeURIComponent(txId)}`;
+      if (n.includes("ETH") || n.includes("ERC20")) return `https://etherscan.io/tx/${encodeURIComponent(txId)}`;
+      if (n.includes("TRX") || n.includes("TRC20")) return `https://tronscan.org/#/transaction/${encodeURIComponent(txId)}`;
+      if (n.includes("POLYGON") || n.includes("MATIC")) return `https://polygonscan.com/tx/${encodeURIComponent(txId)}`;
+      return null;
+    }
+
+    function showToast(text){
+      const t = document.getElementById("toast");
+      t.textContent = text;
+      t.style.display = "block";
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => t.style.display = "none", 1400);
+    }
+
+    async function copyText(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        showToast("TxID copied");
+      }catch(e){
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        showToast("TxID copied");
+      }
+    }
+
+    async function renderProducts() {
+      const store = S.loadStore();
+
+      let products = [];
+      try{
+        products = await S.loadRemoteProducts(REMOTE_PRODUCTS_URL);
+        prodHint.textContent = "";
+      }catch(e){
+        products = store.products || [];
+        prodHint.textContent = "Showing local products (remote catalog unavailable).";
+      }
+
+      products = (products || []).filter(p => p && p.active !== false);
+
+      productsEl.innerHTML = products.map((p, i) => `
+        <div class="card sectionIn" style="animation-delay:${Math.min(i, 6) * 60}ms;">
+          <div class="prod-head">
+            <span class="prod-name">${escapeHtml(p.name)}</span>
+            <span class="prod-price">$${Number(p.price).toFixed(2)} ${escapeHtml(p.currency || "")}</span>
+          </div>
+          <div class="prod-desc">${escapeHtml(p.description || "")}</div>
+          <button class="btn block" style="margin-top:14px;" data-buy="${escapeHtml(p.id)}">Buy</button>
+        </div>
+      `).join("");
+
+      productsEl.querySelectorAll("[data-buy]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-buy");
+          const p = products.find(x => String(x.id) === String(id));
+          if (!p) return alert("Product not found");
+
+          selectedProduct = p;
+
+          document.getElementById("m_prod").textContent = p.name;
+          document.getElementById("m_amount").textContent = `$${Number(p.price).toFixed(2)} ${p.currency || ""}`;
+
+          document.getElementById("m_net").textContent = store.settings.network;
+          document.getElementById("m_wallet").textContent = store.settings.walletAddress;
+          document.getElementById("m_note").textContent = store.settings.note || "";
+
+          document.getElementById("m_name").value = "";
+          document.getElementById("m_tg").value = "";
+          document.getElementById("m_email").value = "";
+          document.getElementById("m_txid").value = "";
+
+          const r = document.getElementById("m_result");
+          r.style.display = "none";
+          r.innerHTML = "";
+
+          modal.style.display = "flex";
+        });
+      });
+    }
+
+    btnClose.addEventListener("click", () => modal.style.display = "none");
+    modal.addEventListener("click", (e) => { if (e.target === modal) modal.style.display = "none"; });
+
+    btnSubmit.addEventListener("click", () => {
+      try {
+        const name = document.getElementById("m_name").value.trim();
+        const telegram = document.getElementById("m_tg").value.trim();
+        const email = document.getElementById("m_email").value.trim();
+        const txId = document.getElementById("m_txid").value.trim();
+
+        const order = S.createOrder({
+          name,
+          telegram,
+          email,
+          productId: selectedProduct.id,
+          txId,
+          productSnapshot: {
+            name: selectedProduct.name,
+            price: selectedProduct.price,
+            currency: selectedProduct.currency
+          }
+        });
+
+        fetch(FORMSPREE_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify({
+            subject: `New order: ${selectedProduct.name}`,
+            customer_name: name,
+            telegram: telegram,
+            customer_email: email,
+            product: selectedProduct.name,
+            price: selectedProduct.price,
+            currency: selectedProduct.currency,
+            txId: txId,
+            orderId: order.id,
+            status: order.status,
+            page: location.href,
+            time: new Date().toISOString()
+          })
+        }).catch(() => {});
+
+        const r = document.getElementById("m_result");
+        r.style.display = "block";
+        r.innerHTML = `
+          <div class="receipt">
+            <div class="receipt-row"><span class="k">Submitted</span><span class="v">✓</span></div>
+            <div class="receipt-row"><span class="k">Order ID</span><span class="v">${escapeHtml(order.id)}</span></div>
+            <div class="receipt-row"><span class="k">Status</span><span class="v">${statusPillHtml(order.status)}</span></div>
+          </div>
+          <p class="hint">Copy your Order ID and check its status anytime under "Track your order".</p>
+        `;
+      } catch (err) {
+        alert(err.message || "Failed to submit order");
+      }
+    });
+
+    // Order lookup + messaging
+    const btnLookup = document.getElementById("btnLookup");
+    const orderBox = document.getElementById("orderBox");
+    const msgsEl = document.getElementById("msgs");
+
+    function loadOrderForUser() {
+      const store = S.loadStore();
+      const orderId = document.getElementById("lookupOrderId").value.trim();
+      const email = document.getElementById("lookupEmail").value.trim();
+      const o = store.orders.find(x => x.id === orderId);
+
+      if (!o) { alert("Order not found"); return; }
+      if (o.email !== email) { alert("Email does not match this order"); return; }
+
+      document.getElementById("o_id").textContent = o.id;
+      const statusWrap = document.getElementById("o_status").parentElement;
+      statusWrap.innerHTML = statusPillHtml(o.status);
+      document.getElementById("o_prod").textContent =
+        `${o.productSnapshot.name} ($${Number(o.productSnapshot.price).toFixed(2)} ${o.productSnapshot.currency})`;
+
+      document.getElementById("o_name").textContent = o.name || "-";
+      document.getElementById("o_tg").textContent = o.telegram || "-";
+
+      const tx = o.txId || "-";
+      document.getElementById("o_tx_big").textContent = tx;
+
+      const explorerLink = document.getElementById("explorerLink");
+      const url = explorerUrlFor(store.settings.network, o.txId);
+      if (url) {
+        explorerLink.href = url;
+        explorerLink.style.display = "inline-flex";
+      } else {
+        explorerLink.style.display = "none";
+      }
+
+      orderBox.style.display = "block";
+
+      const msgs = S.getMessages(o.id);
+      msgsEl.innerHTML = msgs.length ? msgs.map(m => `
+        <div class="msg">
+          <span class="who">${escapeHtml(m.from)}</span>
+          <span class="when"> · ${escapeHtml(m.createdAt)}</span>
+          <div class="text">${escapeHtml(m.text)}</div>
+        </div>
+      `).join("") : `<div class="hint">No messages yet.</div>`;
+    }
+
+    btnLookup.addEventListener("click", loadOrderForUser);
+
+    document.getElementById("btnSendMsg").addEventListener("click", () => {
+      const orderId = document.getElementById("lookupOrderId").value.trim();
+      const email = document.getElementById("lookupEmail").value.trim();
+      const store = S.loadStore();
+      const o = store.orders.find(x => x.id === orderId);
+      if (!o) return alert("Order not found");
+      if (o.email !== email) return alert("Email does not match this order");
+
+      const text = document.getElementById("msgText").value;
+      try {
+        S.addMessage(orderId, "USER", text);
+        document.getElementById("msgText").value = "";
+        loadOrderForUser();
+      } catch (e) {
+        alert(e.message || "Failed to send message");
+      }
+    });
+
+    document.getElementById("txCopyBox").addEventListener("click", () => {
+      const tx = document.getElementById("o_tx_big").textContent.trim();
+      if (!tx || tx === "-") return;
+      copyText(tx);
+    });
+
+    // Scroll-reveal for sections
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
+
+    // Card cursor-glow (tilt-lite): track pointer position per card for the radial highlight
+    document.addEventListener("pointermove", (e) => {
+      const card = e.target.closest(".card");
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+      card.style.setProperty("--my", `${e.clientY - r.top}px`);
+    });
+
+    // Floating help button
+    const helpFab = document.getElementById("helpFab");
+    const helpPanel = document.getElementById("helpPanel");
+    helpFab.addEventListener("click", () => helpPanel.classList.toggle("open"));
+    document.addEventListener("click", (e) => {
+      if (!helpPanel.classList.contains("open")) return;
+      if (helpPanel.contains(e.target) || helpFab.contains(e.target)) return;
+      helpPanel.classList.remove("open");
+    });
+
+    // Init
+    renderProducts();
+  </script>
+</body>
+</html>
